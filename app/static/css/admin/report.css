@@ -1,0 +1,145 @@
+.last-reports {
+    position: relative;
+    border: 1px solid #e7e7e7;
+    border-bottom: 0px;
+    /*position: absolute;*/
+    /*left: 30%;*/
+    width: 100%;
+    left: 15px !important;
+}
+
+.row p {
+    margin: 5px 5px 5px;
+}
+
+.row a {
+    margin: 5px 5px 5px;
+}
+
+
+.row .table_row {
+    /* left: 0px; */
+    border: 1px solid #e7e7e7;
+}
+
+.row span {
+    width: 25%;
+    display: inline-flex;
+    text-align: center;
+    position: relative;
+}
+
+.row span.report-mark {
+    width: 8%;
+}
+
+.table-content span.report-mark input,.table-content span.report-comment input {
+    padding-left: 2%;
+    width: 30%;
+    border: 1px solid #e7e7e7;
+    height: 20px;
+}
+.table-content span.report-comment input {
+    width: 144%;
+}
+.row span.data-creation {
+    width: 14%;
+}
+
+.row span.report-name {
+    width: 35%;
+}
+
+.table-content span.report-name {
+    cursor: pointer;
+}
+
+.table-header span p {
+    text-decoration-line: underline;
+}
+
+.table-header .report-name p {
+    padding-left: 40%;
+}
+
+.table-header .data-creation p {
+    padding-left: 10%;
+}
+
+.table-header .report-comment p {
+    padding-left: 40%;
+}
+
+.row span.report-comment {
+    width: 27%;
+}
+
+.row span.report-user {
+    width: 12%;
+}
+
+.row span.select-input {
+    width: 1%;
+    cursor: pointer;
+    /*padding-left: 10px;*/
+}
+
+.edit-block #delete_users {
+    background: #F41;
+    width: 189px;
+    text-align: center;
+    border: 1px solid #000;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    color: #fff;
+    cursor: pointer;
+    /* background-image: url(/static/images/delete_simple_button2.png); */
+}
+
+.edit-block {
+    position: absolute;
+    top: 30px;
+    left: 15%;
+}
+
+.edit-block #delete_users:hover {
+    background: #d1360c;
+}
+
+.table-header span img {
+    width: 20px;
+    margin-left: 6px;
+    height: 20px;
+    position: absolute;
+}
+
+.table-header span.report-name img {
+    right: 40%;
+}
+
+.table-header span.report-user img {
+    right: 0%;
+}
+
+.table-header span.data-creation img {
+    right: 0%;
+}
+
+.table-header span.report-mark img {
+    right: 0%;
+}
+
+.table-header span img.img-up {
+    transform: rotate(180deg);
+}
+
+.table-header span img.img-down {
+    top: 12px;
+}
+.table-header span.filter {
+    cursor: pointer;
+}
+.table-header span.active {
+    background-color: #e6e6e6;
+    color: #333;
+}

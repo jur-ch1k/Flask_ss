@@ -1,0 +1,69 @@
+{% extends "admin_base.html" %}
+
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/admin/groups_edit.css') }}">
+    <script src="{{ url_for('static',filename='js/admin/groups_edit.js') }}"></script>
+
+{% endblock %}
+
+
+{% block app_content %}
+    <script>
+        var groups = {{ arResult['groups']|tojson }},
+            users = {{ arResult['users_list']|tojson }};
+    </script>
+    <div class="groups-block">
+        <div class="tabs">
+            {% for group in arResult['groups'] %}
+                <div class="tab-inline {% if group['name']=='admin' %} {{ 'active' }}{% endif %}">
+                    {{ group['name'] }}
+                </div>
+            {% endfor %}
+            <div class="tab-inline tab-new">
+                +
+            </div>
+        </div>
+        {% for group in arResult['groups'] %}
+            <div class="tabs-content tab-{{ group['name'] }}" name="{{ group['name'] }}"
+                 style="display: {% if group['name']!='admin' %} {{ 'none' }}{% endif %}">
+                <div class="row users-table">
+                    <div class="table_row table-header">
+                        <span class="login"><p>Login</p></span>
+                    </div>
+
+                    {% for user in group['users'] %}
+                        <div class="table_row">
+                            <span class="select-input content"><input type="checkbox"></span>
+                            <span class="user-name"><p>{{ user }}</p></span>
+                        </div>
+                    {% endfor %}
+                </div>
+                <input class="add-new" placeholder="Введите имя пользователя">
+                <div class="users_out-group" style="display: none">
+                    {% for user in arResult['users_list'] %}
+                        {% if user not in group['users'] %}
+                            <div>{{ user }}</div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="has-error" style="display: none"></div>
+                <div class="edit-block">
+                    <div class="add_users">Добавить нового пользоателя</div>
+                    <div class="delete_users">Удалить выбранных пользователей</div>
+                </div>
+            </div>
+
+        {% endfor %}
+        <div class="tabs-content tab-new"
+             style="display: none">
+            <input class="add-new" placeholder="Введите название новой группы">
+            <div class="has-error" style="display: none"></div>
+            <div class="edit-block">
+                <div id="add_group">Добавить группу</div>
+            </div>
+        </div>
+    </div>
+    {#    {{ arResult['groups'] }}#}
+{% endblock %}

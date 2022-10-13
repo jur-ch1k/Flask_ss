@@ -1,0 +1,40 @@
+{% extends "admin_base.html" %}
+
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/admin/users.css') }}">
+    <script src="{{ url_for('static',filename='js/admin/users.js') }}"></script>
+
+{% endblock %}
+
+
+{% block app_content %}
+    {% block leftNavBar %}
+    {% endblock %}
+    <div class="row users-table">
+        <div class="table_row table-header">
+{#            <span class="select-input">#}
+{#                <input type="button" id="delete_users" style="display: none">#}
+{#                <label for="delete_users"><img src="{{ url_for('static', filename='images/delete.png') }}"></label>#}
+{#            </span>#}
+            <span class="login"><p>Login</p></span><span class="last-seen"><p>Last Seen</p></span>
+        </div>
+        {#        {% id = 0 %}#}
+        {% for user in arUsers %}
+            {#            {% id++ %}#}
+            <div class="table_row">
+                {#                <span>{{ id }}</span>#}
+                <span class="select-input content"><input type="checkbox"></span>
+                <span class="user-name"><p>{{ user.username }}</p></span><span
+                    class="last-seen"><p>{{ user.last_seen }}</p></span>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="edit-block">
+        <div id="delete_users">Удалить выбранных пользователей</div>
+        <input id="mask_for_select">
+        <label for="mask_for_select">ucmc2022*</label>
+        <div id="select_by_mask">Выбрать пользователей по маске</div>
+    </div>
+{% endblock %}

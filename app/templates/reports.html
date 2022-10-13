@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/user/report.css') }}">
+    <script src="{{ url_for('static',filename='js/user/report.js') }}"></script>
+
+{% endblock %}
+
+{% block app_content %}
+    <h1>Отчеты</h1>
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+    <h2>Ранние отчеты</h2>
+    <div class="last-reports row">
+
+        <div class="table_row table-header"><span class="report-name"><p>Отчет</p></span><span
+                class="data-creation"><p>Дата создания</p></span><span class="report-mark"><p>Оценка</p></span><span
+                class="report-comment"><p>Комментарий</p></span></div>
+        {% for report in reports %}
+            <div class="table_row table-content"><span class="report-name"><a href="/upload_report/{{ report['report_name'] }}">{{ report['report_name'] }}</a></span><span
+                    class="data-creation"><p>{{ report['data_creation'] }}</p></span><span
+                    class="report-mark"><p>{{ report['mark'] }}</p></span><span
+                    class="report-comment"><p>{{ report['comment'] }}</p></span></div>
+        {% endfor %}
+    </div>
+{% endblock %}

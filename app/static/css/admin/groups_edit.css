@@ -1,0 +1,150 @@
+.tabs {
+    display: inline-flex;
+    position: absolute;
+    top: 0;
+}
+
+.tabs .tab-inline:hover {
+    background: #777;;
+    color: #e7e7e7;
+}
+
+.groups-block {
+    position: relative;
+}
+
+.tabs .tab-inline.active {
+    background-color: #fff;
+    border-bottom-color: #fff;
+    height: 21px;
+    z-index: 1;
+}
+
+.tabs .tab-inline {
+    border-bottom-width: 0px !important;
+    min-width: 100px;
+    text-align: center;
+    border: 1px solid #e7e7e7;
+    color: #777;
+    background-color: #f8f8f8;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    cursor: pointer;
+}
+
+.tabs .tab-inline.tab-new {
+    min-width: 30px;
+}
+
+.has-error {
+    font-size: 10px;
+    padding-left: 5px;
+    color: red;
+}
+
+.tabs-content .users_out-group {
+    width: 280px;
+    margin-left: 5px;
+    background-color: #f8f8f8;
+    border: 1px solid #e7e7e7;
+}
+.tabs-content .users_out-group div:hover{
+    cursor: pointer;
+    background: #777;
+    color: #e7e7e7;
+}
+
+.groups-block .tabs-content {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 5px;
+    border: 1px solid #e7e7e7;
+    min-height: 200px;
+    position: absolute;
+    top: 20px;
+    min-width: 300px;
+}
+
+.tabs-content .edit-block {
+    margin-top: 20px;
+    margin-left: 50px;
+
+}
+
+.edit-block .delete_users:hover {
+    background: #d1360c;
+}
+
+.edit-block .delete_users {
+    background: #F41;
+}
+
+.edit-block .add_users:hover, .edit-block #add_group:hover {
+    background: #3c763d;
+}
+
+.edit-block .add_users, .edit-block #add_group {
+    background: #56a557;
+}
+.table-header .login{
+    cursor: default;
+}
+.edit-block .delete_users, .edit-block .add_users, .edit-block #add_group {
+    width: 189px;
+    text-align: center;
+    border: 1px solid #000;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    color: #fff;
+    cursor: pointer;
+    /*background-image: url(/static/images/delete_simple_button2.png);*/
+}
+
+.row span {
+    width: 150px;
+    display: inline-flex;
+    text-align: center;
+}
+
+.row .table_row {
+    /* left: 0px; */
+    border-bottom: 1px solid;
+    height: 23px;
+}
+
+.table_row.table-header span p {
+    position: absolute !important;
+    top: 0;
+    width: 100%;
+}
+
+.tabs-content input.add-new {
+    width: 280px;
+    margin-left: 5px;
+    margin-top: 20px;
+}
+
+.user-name {
+    margin-left: 54px;
+}
+
+.table_row input,.table_row .user-name {
+    cursor: pointer;
+}
+
+.row .select-input {
+    width: 10%;
+}
+
+.row .select-input.content {
+    padding-left: 20px;
+}
+
+.row {
+    border: 1px solid;
+    border-bottom: 0px;
+    position: relative;
+    margin-left: 5px;
+    margin-top: 20px;
+    width: 280px;
+}

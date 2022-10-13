@@ -1,0 +1,63 @@
+.last-reports {
+    position: relative;
+    border: 1px solid #e7e7e7;
+    border-bottom: 0px;
+    /*position: absolute;*/
+    /*left: 30%;*/
+    width: 100%;
+    left: 15px !important;
+}
+
+.row p {
+    margin: 5px 5px 5px;
+}
+.row a {
+    margin: 5px 5px 5px;
+}
+
+
+.row .table_row {
+    /* left: 0px; */
+    border: 1px solid #e7e7e7;
+}
+
+.row span {
+    width: 25%;
+    display: inline-flex;
+    text-align: center;
+}
+
+.row span.report-mark {
+    width: 5%;
+}
+.table-content span.report-mark {
+    padding-left: 2%;
+}
+.row span.data-creation {
+    width: 13%;
+}
+
+.row span.report-name {
+    width: 35%;
+}
+
+.table-content span.report-name {
+    cursor: pointer;
+}
+
+.table-header span p {
+    text-decoration-line: underline;
+}
+.table-header .report-name p {
+    padding-left: 40%;
+}
+.table-header .data-creation p {
+    padding-left: 10%;
+}
+.table-header .report-comment p {
+    padding-left: 40%;
+}
+
+.row span.report-comment {
+    width: 47%;
+}

@@ -1,0 +1,12 @@
+#refresh {
+  width: 500px;
+}
+.admin-navbar{
+  display: block;
+    height: 1000px;
+    width: 236px;
+}
+
+.main-content{
+  display: inline-flex;
+}

@@ -1,0 +1,27 @@
+.users_new span {
+    width: 50%;
+    display: inline-flex;
+    text-align: center;
+}
+
+.users_new span p {
+    width: 100%;
+    margin: 2px 0;
+}
+
+.users_new .table_row {
+
+    border-bottom: 1px solid;
+}
+
+.users_new {
+    border: 1px solid;
+    border-bottom: 0px;
+    position: absolute;
+    right: 30%;
+    width: 20%;
+}
+
+.row {
+    position: relative;
+}

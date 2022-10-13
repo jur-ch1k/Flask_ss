@@ -1,0 +1,837 @@
+2022-01-29 00:53:56,737 ERROR: Exception on /_styles.css [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 00:53:56,892 ERROR: Exception on /favicon.ico [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 00:57:34,184 INFO: Microbial startup [int /home/new_user/Desktop/Flask_ss/app/__init__.py:77]
+2022-01-29 00:58:36,969 INFO: Microbial startup [int /home/new_user/Desktop/Flask_ss/app/__init__.py:77]
+2022-01-29 00:58:55,888 ERROR: Exception on /admin [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1502, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/new_user/.local/lib/python3.8/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/new_user/Desktop/Flask_ss/app/admin/routes.py", line 66, in admin
+    return render_template('admin/register.html', title='Регистрация', form=form, arUsers=[])
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/templating.py", line 147, in render_template
+    return _render(
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/templating.py", line 128, in _render
+    rv = template.render(context)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/jinja2/environment.py", line 925, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/new_user/Desktop/Flask_ss/app/templates/admin/register.html", line 2, in top-level template code
+    {% import 'bootstrap/wtf.html' as wtf %}
+  File "/home/new_user/Desktop/Flask_ss/app/templates/base.html", line 1, in top-level template code
+    {% extends 'bootstrap/base.html' %}
+  File "/home/new_user/.local/lib/python3.8/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
+    {% block doc -%}
+  File "/home/new_user/.local/lib/python3.8/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block 'doc'
+    {%- block html %}
+  File "/home/new_user/.local/lib/python3.8/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block 'html'
+    {% block body -%}
+  File "/home/new_user/.local/lib/python3.8/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block 'body'
+    {% block content -%}
+  File "/home/new_user/Desktop/Flask_ss/app/templates/base.html", line 49, in block 'content'
+    {% block app_content %}{% endblock %}
+  File "/home/new_user/Desktop/Flask_ss/app/templates/admin/register.html", line 11, in block 'app_content'
+    {% if len(arUsers) %}
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/jinja2/utils.py", line 84, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+jinja2.exceptions.UndefinedError: 'len' is undefined
+2022-01-29 00:58:56,692 ERROR: Exception on /_styles.css [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 00:58:57,285 ERROR: Exception on /favicon.ico [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:01:05,555 INFO: Microbial startup [int /home/new_user/Desktop/Flask_ss/app/__init__.py:77]
+2022-01-29 01:01:34,882 INFO: Microbial startup [int /home/new_user/Desktop/Flask_ss/app/__init__.py:77]
+2022-01-29 01:02:03,493 ERROR: Exception on /_styles.css [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:02:04,699 ERROR: Exception on /favicon.ico [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:02:11,592 ERROR: Exception on /_styles.css [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:02:11,734 ERROR: Exception on /favicon.ico [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:03:06,492 INFO: Microbial startup [int /home/new_user/Desktop/Flask_ss/app/__init__.py:77]
+2022-01-29 01:03:28,779 INFO: Microbial startup [int /home/new_user/Desktop/Flask_ss/app/__init__.py:77]
+2022-01-29 01:04:04,322 ERROR: Exception on /_styles.css [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:04:05,475 ERROR: Exception on /favicon.ico [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:04:09,967 ERROR: Exception on /_styles.css [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:04:10,164 ERROR: Exception on /favicon.ico [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:06:52,248 INFO: Microbial startup [int /home/new_user/Desktop/Flask_ss/app/__init__.py:77]
+2022-01-29 01:07:09,333 INFO: Microbial startup [int /home/new_user/Desktop/Flask_ss/app/__init__.py:77]
+2022-01-29 01:07:26,671 ERROR: Exception on /_styles.css [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:07:27,672 ERROR: Exception on /favicon.ico [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:07:31,537 ERROR: Exception on /_styles.css [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:07:31,669 ERROR: Exception on /favicon.ico [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:08:50,304 INFO: Microbial startup [int /home/new_user/Desktop/Flask_ss/app/__init__.py:77]
+2022-01-29 01:09:05,351 INFO: Microbial startup [int /home/new_user/Desktop/Flask_ss/app/__init__.py:77]
+2022-01-29 01:09:15,575 ERROR: Exception on /_styles.css [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:09:16,709 ERROR: Exception on /favicon.ico [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:09:20,374 ERROR: Exception on /_styles.css [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:09:20,496 ERROR: Exception on /favicon.ico [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:09:50,991 INFO: Microbial startup [int /home/new_user/Desktop/Flask_ss/app/__init__.py:77]
+2022-01-29 01:10:01,753 INFO: Microbial startup [int /home/new_user/Desktop/Flask_ss/app/__init__.py:77]
+2022-01-29 01:10:11,369 ERROR: Exception on /_styles.css [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:10:12,346 ERROR: Exception on /favicon.ico [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:10:14,960 ERROR: Exception on /_styles.css [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:10:15,093 ERROR: Exception on /favicon.ico [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:11:12,303 INFO: Microbial startup [int /home/new_user/Desktop/Flask_ss/app/__init__.py:77]
+2022-01-29 01:11:31,673 INFO: Microbial startup [int /home/new_user/Desktop/Flask_ss/app/__init__.py:77]
+2022-01-29 01:11:55,446 ERROR: Exception on /_styles.css [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:11:56,162 ERROR: Exception on /admin/_styles.css [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:11:56,307 ERROR: Exception on /favicon.ico [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:11:58,956 ERROR: Exception on /_styles.css [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:11:58,967 ERROR: Exception on /admin/_styles.css [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:11:59,063 ERROR: Exception on /favicon.ico [GET] [int /home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py:1457]
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1492, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1474, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/ctx.py", line 367, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/werkzeug/routing.py", line 2032, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1386, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
+    return self.ensure_sync(handler)(e)
+TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2022-01-29 01:25:54,950 INFO: Microbial startup [int /home/new_user/Desktop/Flask_ss/app/__init__.py:77]
+2022-01-29 01:26:17,992 INFO: Microbial startup [int /home/new_user/Desktop/Flask_ss/app/__init__.py:77]

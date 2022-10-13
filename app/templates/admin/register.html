@@ -1,0 +1,29 @@
+{#{% extends "base.html" %}#}
+{% extends "admin_base.html" %}
+
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/admin/register.css') }}">
+{% endblock %}
+
+
+{% block app_content %}
+    {% block leftNavBar %}
+    {% endblock %}
+    <h1>Register</h1>
+    <!-- Теперь всё сделано с помощью bootstrap -->
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+        {#        {% if arUsersLen %}#}
+        <div class="users_new">
+            <div class="table_row"><span><p>Login</p></span><span><p>Password</p></span></div>
+            {% for user in arUsers %}
+                <div class="table_row"><span><p>{{ user.login }}</p></span><span><p>{{ user.password }}</p></span></div>
+            {% endfor %}
+        </div>
+    </div>
+    {#        {% endif %}#}
+{% endblock %}

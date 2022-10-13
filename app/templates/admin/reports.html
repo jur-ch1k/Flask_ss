@@ -1,0 +1,54 @@
+{% extends "admin_base.html" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/admin/report.css') }}">
+    <script src="{{ url_for('static',filename='js/admin/report.js') }}"></script>
+
+{% endblock %}
+
+{% block app_content %}
+    <h1>Отчеты</h1>
+    <div class="edit-block">
+        <div id="delete_users">Удалить выбранные отчеты</div>
+        {#<input id="mask_for_select">
+        <label for="mask_for_select">ucmc2022*</label>
+        <div id="select_by_mask">Выбрать пользователей по маске</div>#}
+    </div>
+    <div class="last-reports row">
+
+        <div class="table_row table-header">
+            <span class="select-input content"><input type="checkbox">
+            </span>
+            <span class="report-name filter" filter-data="report-name"><p>Отчет</p>
+                <img class="img-up" src="{{ url_for('static',filename='images/wing.png') }}">
+                <img class="img-down" src="{{ url_for('static',filename='images/wing.png') }}">
+            </span>
+            <span class="report-user filter" filter-data="report-user"><p>Пользователь</p>
+                <img class="img-up" src="{{ url_for('static',filename='images/wing.png') }}">
+                <img class="img-down" src="{{ url_for('static',filename='images/wing.png') }}">
+            </span>
+            <span class="data-creation filter" filter-data="data-creation"><p>Дата создания</p>
+                <img class="img-up" src="{{ url_for('static',filename='images/wing.png') }}">
+                <img class="img-down" src="{{ url_for('static',filename='images/wing.png') }}">
+            </span>
+            <span class="report-mark filter" filter-data="report-mark"><p>Оценка</p>
+                <img class="img-up" src="{{ url_for('static',filename='images/wing.png') }}">
+                <img class="img-down" src="{{ url_for('static',filename='images/wing.png') }}">
+            </span>
+            <span class="report-comment"><p>Комментарий</p></span>
+        </div>
+        {% for report in reports %}
+            <div class="table_row table-content">
+                <span class="select-input content"><input type="checkbox"></span>
+                <span class="report-name">
+                <a href="/admin/reports/{{ report['report_name'] }}?user={{ report['user'] }}"
+                   data="{{ report['report_name'] }}">{{ report['report_name'] }}</a>
+                </span>
+                <span class="report-user"><p>{{ report['user'] }}</p></span>
+                <span class="data-creation"><p>{{ report['data_creation'] }}</p></span>
+                <span class="report-mark"><p><input type="text" value="{{ report['mark'] }}"></p></span>
+                <span class="report-comment"><p><input type="text" value="{{ report['comment'] }}"></p></span>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

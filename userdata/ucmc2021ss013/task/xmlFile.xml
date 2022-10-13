@@ -1,0 +1,22 @@
+<algo>
+	<params>
+		<param name="n" type="int" value="16"></param>
+	</params>
+
+	<block dims="2">
+		<arg name="i" val="1..n"></arg>
+		<arg name="j" val="1..((2)log(n)-1)"></arg>
+			
+		вершины сумм
+		<vertex condition="(j>1)and(i%(2^j)<=2^(j-1))and(i%(2^j)<>0)" type="1">
+			<in src="i,j-1"></in>
+			<in src="i+2^(j-1),j-1"></in>
+		</vertex>
+
+		вершины разностей
+		<vertex condition="(j>1)and((i%(2^j)>2^(j-1))or(i%(2^j)=0))" type="2">
+			<in src="i,j-1"></in>
+			<in src="i-2^(j-1),j-1"></in>
+		</vertex>
+	</block>
+</algo>
