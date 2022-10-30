@@ -190,10 +190,12 @@ def admin():
         arUsers = []
         new_user_count = int(form.userNumber.data)
         current_users_count = 0
-        year = date.today().strftime('%Y')
+        # year = date.today().strftime('%Y')
+        mask = form.mask.data
         # поиск номера несуществуюего пользователя
         while 1:
-            curUser = 'ucmc' + year + 'ss' + format(current_users_count, '03d')
+            # curUser = 'ucmc' + year + 'ss' + format(current_users_count, '03d')
+            curUser = mask + format(current_users_count, '03d')
             user = User.query.filter_by(
                 username=curUser).first()
             if user is None:
@@ -201,7 +203,8 @@ def admin():
             current_users_count += 1
         # добавление новых пользователей
         for i in range(0, new_user_count):
-            usr_name = 'ucmc' + year + 'ss' + format(i + current_users_count, '03d')
+            # usr_name = 'ucmc' + year + 'ss' + format(i + current_users_count, '03d')
+            usr_name = mask + format(i + current_users_count, '03d')
             txt_pass_count = 12
             usr_list = open("User_list.txt", "a")
             txt_pass = ''.join(random.choices(string.ascii_letters + string.digits, k=txt_pass_count))
