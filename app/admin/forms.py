@@ -19,3 +19,4 @@ class RegisterUsers(FlaskForm):
     defaultMask = 'ucmc' + year + 'ss'
     mask = StringField('Маска', validators=[DataRequired()], default=defaultMask)
     submit = SubmitField('Создать пользователей')
+    download = SubmitField('Скачать')

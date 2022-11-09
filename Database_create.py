@@ -18,7 +18,7 @@ for usr in old_usrs:
 dataBase.session.commit()
 
 # Create file that will contain new user data
-usr_list = open("User_list.txt", "w")
+usr_list = open("volume/User_list.txt", "w")
 
 # Create new Users
 txt_pass_count = 12
