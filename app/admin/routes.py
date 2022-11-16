@@ -41,7 +41,7 @@ def download(filename):
     data = request.args.get('user')
     cur_abs_path = os.path.abspath(os.path.curdir)
     user_folder = User.query.filter_by(username=data).first().local_folder
-    usr_report_path = "/userdata/" + user_folder + "/reports"
+    usr_report_path = "volume/userdata/" + user_folder + "/reports"
     dir = cur_abs_path + usr_report_path
     return send_from_directory(directory=dir, filename=filename, as_attachment=True)
 
@@ -58,7 +58,7 @@ def reports_edit():
                 userId = User.query.filter_by(username=report['user']).first().id
                 cur_abs_path = os.path.abspath(os.path.curdir)
                 user_folder = User.query.filter_by(username=report['user']).first().local_folder
-                usr_report_path = "/userdata/" + user_folder + "/reports/"
+                usr_report_path = "volume/userdata/" + user_folder + "/reports/"
                 report_path = cur_abs_path + usr_report_path + report['report']
                 if os.path.exists(report_path):
                     os.remove(report_path)
@@ -152,7 +152,7 @@ def users():
         data = request.get_json()
         for userName in data['usersDelete']:
             User.query.filter_by(username=userName).delete(synchronize_session=False)
-            usr_folder = 'userdata/' + userName
+            usr_folder = 'volume/userdata/' + userName
             if os.path.exists(usr_folder):
                 shutil.rmtree(usr_folder)
         dataBase.session.commit()
@@ -216,10 +216,10 @@ def admin():
                 new_user.set_password(txt_pass)
                 dataBase.session.add(new_user)
                 # create folders for new users
-                usr_folder = 'userdata/' + usr_name
+                usr_folder = 'volume/userdata/' + usr_name
                 if not os.path.exists(usr_folder):
                     os.makedirs(usr_folder)
-                copy_tree('userdata/ucmc2020ssRoot', usr_folder)
+                copy_tree('volume/userdata/ucmc2020ssRoot', usr_folder)
                 arUsers.append({'login': usr_name, 'password': txt_pass})
 
             dataBase.session.commit()
