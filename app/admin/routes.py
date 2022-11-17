@@ -208,7 +208,7 @@ def admin():
                 # usr_name = 'ucmc' + year + 'ss' + format(i + current_users_count, '03d')
                 usr_name = mask + format(i + current_users_count, '03d')
                 txt_pass_count = 12
-                usr_list = open("./volume/User_list.txt", "a")
+                usr_list = open("volume/User_list.txt", "a")
                 txt_pass = ''.join(random.choices(string.ascii_letters + string.digits, k=txt_pass_count))
                 usr_list.write(usr_name + " : " + txt_pass + "\n")
                 # It works correctly but further investigation on what's going on required.
