@@ -228,5 +228,7 @@ def admin():
                                    arUsersLen=len(arUsers))
         if form.download.data:
             return send_from_directory('/home/flask_skipod/volume', 'User_list.txt')
+        if form.log_download.data:
+            return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
     return render_template('admin/register.html', title='Регистрация', form=form, arUsers=[], arUsersLen=0)
     # return render_template('admin.html', title='Администрирование')

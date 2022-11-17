@@ -20,3 +20,4 @@ class RegisterUsers(FlaskForm):
     mask = StringField('Маска', validators=[DataRequired()], default=defaultMask)
     submit = SubmitField('Создать пользователей')
     download = SubmitField('Скачать')
+    log_download = SubmitField('Скачать логи')
