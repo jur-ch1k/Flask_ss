@@ -12,12 +12,14 @@ class RegisterForm(FlaskForm):
 
 
 class RegisterUsers(FlaskForm):
-    userNumber = StringField('Количество пользователей для добавления', validators=[DataRequired()])
+    userNumber = StringField('Количество пользователей для добавления', validators=[DataRequired()], default=0)
     # password = PasswordField('Password', validators=[DataRequired()])
     # password_repeat = PasswordField('Repeat password', validators=[DataRequired()])
     year = date.today().strftime('%Y')
     defaultMask = 'ucmc' + year + 'ss'
     mask = StringField('Маска', validators=[DataRequired()], default=defaultMask)
+    console = StringField('console', validators=[DataRequired()])
+    console_button = SubmitField('insert command')
     submit = SubmitField('Создать пользователей')
     download = SubmitField('Скачать')
     log_download = SubmitField('Скачать логи')
