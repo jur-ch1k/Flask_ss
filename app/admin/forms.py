@@ -18,8 +18,10 @@ class RegisterUsers(FlaskForm):
     year = date.today().strftime('%Y')
     defaultMask = 'ucmc' + year + 'ss'
     mask = StringField('Маска', validators=[DataRequired()], default=defaultMask)
-    console = StringField('console', validators=[DataRequired()])
-    console_button = SubmitField('insert command')
     submit = SubmitField('Создать пользователей')
     download = SubmitField('Скачать')
-    log_download = SubmitField('Скачать логи')
+
+    # --------------debug settings--------------
+    # console = StringField('console', validators=[DataRequired()])
+    # console_button = SubmitField('insert command')
+    # log_download = SubmitField('Скачать логи')
