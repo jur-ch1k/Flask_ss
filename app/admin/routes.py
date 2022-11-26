@@ -227,7 +227,20 @@ def admin():
             return render_template('admin/register.html', title='Регистрация', form=form, arUsers=arUsers,
                                    arUsersLen=len(arUsers))
         if form.download.data:
-            return send_from_directory('/home/flask_skipod/volume', 'User_list.txt')
+            file = open('/home/flask_skipod/volume/User_list.txt', 'r')
+            lines = file.readlines()
+            mask = form.mask.data
+            arUsers = []
+            for line in lines:
+                if mask in line:
+                    line = line[:-1]
+                    words = line.split(':')
+                    arUsers.append({'login': words[0], 'password': words[1]})
+            file.close()
+            #print(arUsers)
+            return render_template('admin/register.html', title='Регистрация', form=form, arUsers=arUsers,
+                                  arUsersLen=len(arUsers))
+            #return send_from_directory('/home/flask_skipod/volume', 'User_list.txt')
 
         # --------------debug settings--------------
         # if form.log_download.data:
