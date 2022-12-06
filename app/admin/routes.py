@@ -232,9 +232,7 @@ def admin():
                 # create folders for new users
                 usr_folder = 'volume/userdata/' + usr_name
                 if not os.path.exists(usr_folder):
-                    pass
-                    #os.makedirs(usr_folder)
-                copytree('volume/userdata/ucmc2020ssRoot', usr_folder)
+                    copytree('volume/userdata/ucmc2020ssRoot', usr_folder)
                 arUsers.append({'login': usr_name, 'password': txt_pass})
 
             dataBase.session.commit()
