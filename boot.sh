@@ -12,6 +12,6 @@ while true; do
     sleep 5
 done
 # create user folders
-python Folders_create.py
+# python Folders_create.py
 # launch web server
-exec gunicorn -b 0.0.0.0:5000 --access-logfile - --error-logfile - flask_skipod:appFlask
+exec gunicorn -b 0.0.0.0:5000 --timeout 120 --access-logfile - --error-logfile - flask_skipod:appFlask

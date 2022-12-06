@@ -1,4 +1,5 @@
 import json
+import time
 
 from app.admin import bluePrint
 from app.admin.forms import RegisterForm, RegisterUsers
@@ -8,12 +9,12 @@ from app import dataBase
 from flask import render_template, flash, redirect, url_for, request, url_for, send_from_directory
 from werkzeug.urls import url_parse
 from flask_login import current_user, login_required
-from distutils.dir_util import copy_tree
+# from distutils.dir_util import copy_tree, remove_tree
 import random
 from datetime import date
 import string
 import os
-import shutil
+from shutil import copytree, rmtree
 from sqlalchemy import desc
 from flask import send_from_directory
 from os import path
@@ -32,6 +33,16 @@ def checkGroup():
     else:
         return True
 
+def find_free_num(mask):
+    current_users_count = 0
+    while 1:
+        curUser = mask + format(current_users_count, '03d')
+        user = User.query.filter_by(
+            username=curUser).first()
+        if user is None:
+            break
+        current_users_count += 1
+    return current_users_count
 
 @bluePrint.route('/admin/reports/<path:filename>', methods=['GET', 'POST'])
 @login_required
@@ -154,7 +165,7 @@ def users():
             User.query.filter_by(username=userName).delete(synchronize_session=False)
             usr_folder = 'volume/userdata/' + userName
             if os.path.exists(usr_folder):
-                shutil.rmtree(usr_folder)
+                rmtree(usr_folder)
         dataBase.session.commit()
         return json.dumps({'status': 'OK'})
     # выбираем пользователей по дате последней авторизации (по убыванию)
@@ -191,35 +202,39 @@ def admin():
         if form.submit.data:
             arUsers = []
             new_user_count = int(form.userNumber.data)
-            current_users_count = 0
-            # year = date.today().strftime('%Y')
             mask = form.mask.data
-            # поиск номера несуществуюего пользователя
-            while 1:
-                # curUser = 'ucmc' + year + 'ss' + format(current_users_count, '03d')
-                curUser = mask + format(current_users_count, '03d')
-                user = User.query.filter_by(
-                    username=curUser).first()
-                if user is None:
-                    break
-                current_users_count += 1
+            # поиск номера несуществующего пользователя
+            current_users_count = find_free_num(mask)
+            # while 1:
+            #     # curUser = 'ucmc' + year + 'ss' + format(current_users_count, '03d')
+            #     curUser = mask + format(current_users_count, '03d')
+            #     user = User.query.filter_by(
+            #         username=curUser).first()
+            #     if user is None:
+            #         break
+            #     current_users_count += 1
             # добавление новых пользователей
             for i in range(0, new_user_count):
-                # usr_name = 'ucmc' + year + 'ss' + format(i + current_users_count, '03d')
                 usr_name = mask + format(i + current_users_count, '03d')
+                # проверка на то, свободно ли нынешнее имя
+                if User.query.filter_by(username=usr_name).first() is not None:
+                    current_users_count = find_free_num(mask)
+                    usr_name = mask + format(current_users_count, '03d')
                 txt_pass_count = 12
                 usr_list = open("volume/User_list.txt", "a")
                 txt_pass = ''.join(random.choices(string.ascii_letters + string.digits, k=txt_pass_count))
                 usr_list.write(usr_name + " : " + txt_pass + "\n")
                 # It works correctly but further investigation on what's going on required.
+                # добавление пользователя в бд
                 new_user = User(username=usr_name, local_folder=usr_name)
                 new_user.set_password(txt_pass)
                 dataBase.session.add(new_user)
                 # create folders for new users
                 usr_folder = 'volume/userdata/' + usr_name
                 if not os.path.exists(usr_folder):
-                    os.makedirs(usr_folder)
-                copy_tree('volume/userdata/ucmc2020ssRoot', usr_folder)
+                    pass
+                    #os.makedirs(usr_folder)
+                copytree('volume/userdata/ucmc2020ssRoot', usr_folder)
                 arUsers.append({'login': usr_name, 'password': txt_pass})
 
             dataBase.session.commit()
@@ -248,5 +263,24 @@ def admin():
         # if form.console_button.data:
         #     os.system(form.console.data + "> a.txt")
         #     return send_from_directory('/home/flask_skipod', 'a.txt')
+
+        # DB ANNIHILATOR 3000
+
+        # if form.delete.data:
+        #     users = User.query.all()
+        #     for user in users:
+        #         dataBase.session.delete(user)
+        #     group_user = Group_user.query.all()
+        #     for gu in group_user:
+        #         dataBase.session.delete(gu)
+        #     report = Report.query.all()
+        #     for r in report:
+        #         dataBase.session.delete(r)
+        #     dataBase.session.commit()
+        #
+        #     new_user = User(username='ucmc2020ssRoot', local_folder='ucmc2020ssRoot')
+        #     new_user.set_password('wi5RepSi')
+        #     dataBase.session.add(new_user)
+        #     dataBase.session.commit()
     return render_template('admin/register.html', title='Регистрация', form=form, arUsers=[], arUsersLen=0)
     # return render_template('admin.html', title='Администрирование')
