@@ -19,7 +19,7 @@ from os import path
 def send_textures(username, path):
     # Определяем, в какой папке лежат данные для нашего пользователя
     cur_user = User.query.filter_by(username=username).first_or_404()
-    cur_folder = os.path.abspath(os.path.curdir) + "volume/userdata/" + cur_user.local_folder + "/page"
+    cur_folder = os.path.abspath(os.path.curdir) + "/volume/userdata/" + cur_user.local_folder + "/page"
     # print("SIVNSIVNSIRIEFIWHFIHFIRIHFIRH")
     # print(cur_folder)
     # print(path)
@@ -33,7 +33,7 @@ def render_static(username):
     cur_dir = os.path.curdir
     cur_dir = os.path.abspath(cur_dir)
     cur_dir = os.path.realpath(cur_dir)
-    cur_folder = cur_dir + "volume/userdata/" + cur_user.local_folder + "/page"
+    cur_folder = cur_dir + "/volume/userdata/" + cur_user.local_folder + "/page"
     return send_from_directory(cur_folder, 'page.html')
 
 
@@ -48,7 +48,7 @@ def user_page(username):
 @bluePrint.route('/upload_report/<path:filename>', methods=['GET', 'POST'])
 def download(filename):
     cur_abs_path = os.path.abspath(os.path.curdir)
-    usr_report_path = "volume/userdata/" + current_user.local_folder + "/reports"
+    usr_report_path = "/volume/userdata/" + current_user.local_folder + "/reports"
     return send_from_directory(directory=cur_abs_path+usr_report_path, filename=filename)
 
 
@@ -60,7 +60,7 @@ def upload_report():
         # Определим вспомогательные переменные
         print("RFIRFIF")
         cur_abs_path = os.path.abspath(os.path.curdir)
-        usr_report_path = "volume/userdata/" + current_user.local_folder + "/reports"
+        usr_report_path = "/volume/userdata/" + current_user.local_folder + "/reports"
         # Нужно создать локальную директорию для хранения данных по адресу, который выдан этому юзверю (если таковой есть)
         if not os.path.exists(cur_abs_path + usr_report_path):
             os.makedirs(cur_abs_path + usr_report_path, mode=0x777, exist_ok=True)
@@ -124,8 +124,8 @@ def upload_task():
     if form.validate_on_submit():
         # Определим вспомогательные переменные
         cur_abs_path = os.path.abspath(os.path.curdir)
-        usr_tsk_path = "volume/userdata/" + current_user.local_folder + "/task"
-        usr_pge_path = "volume/userdata/" + current_user.local_folder + "/page"
+        usr_tsk_path = "/volume/userdata/" + current_user.local_folder + "/task"
+        usr_pge_path = "/volume/userdata/" + current_user.local_folder + "/page"
         # Нужно создать локальную директорию для хранения данных по адресу, который выдан этому юзверю (если таковой есть)
         if not os.path.exists(cur_abs_path + usr_tsk_path):
             os.makedirs(cur_abs_path + usr_tsk_path, mode=0x777, exist_ok=True)
@@ -172,7 +172,7 @@ def upload_task():
 def receive_task():
     # Просмотр результирующей картинки.
     cur_abs_path = os.path.abspath(os.path.curdir)
-    usr_tsk_path = "volume/userdata/" + current_user.local_folder + "/task"
+    usr_tsk_path = "/volume/userdata/" + current_user.local_folder + "/task"
 
     # Настройка формы
     form = TaskReceiveForm()
