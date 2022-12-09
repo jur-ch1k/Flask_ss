@@ -22,12 +22,13 @@ COPY --chown=flask_skipod:flask_skipod app app
 COPY --chown=flask_skipod:flask_skipod architect architect
 COPY --chown=flask_skipod:flask_skipod migrations migrations
 COPY --chown=flask_skipod:flask_skipod logs logs
+COPY --chown=flask_skipod:flask_skipod new_user_folder new_user_folder
 #COPY --chown=flask_skipod:flask_skipod volume/userdata userdata
 COPY --chown=flask_skipod:flask_skipod requirements.txt flask_skipod.py config.py Folders_create.py boot.sh ./
 #COPY --chown=flask_skipod:flask_skipod requirements.txt app.db flask_skipod.py config.py Folders_create.py boot.sh ./
 
 
-RUN chmod -R 777 app architect migrations logs \
+RUN chmod -R 777 app architect migrations logs new_user_folder\
     flask_skipod.py config.py Folders_create.py boot.sh
 #!    app.db flask_skipod.py config.py Folders_create.py boot.sh
 

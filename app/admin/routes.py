@@ -214,12 +214,14 @@ def admin():
             #         break
             #     current_users_count += 1
             # добавление новых пользователей
+            old_i = 0
             for i in range(0, new_user_count):
-                usr_name = mask + format(i + current_users_count, '03d')
+                usr_name = mask + format(i + current_users_count - old_i, '03d')
                 # проверка на то, свободно ли нынешнее имя
                 if User.query.filter_by(username=usr_name).first() is not None:
                     current_users_count = find_free_num(mask)
                     usr_name = mask + format(current_users_count, '03d')
+                    old_i = i
                 txt_pass_count = 12
                 usr_list = open("volume/User_list.txt", "a")
                 txt_pass = ''.join(random.choices(string.ascii_letters + string.digits, k=txt_pass_count))
@@ -232,7 +234,7 @@ def admin():
                 # create folders for new users
                 usr_folder = 'volume/userdata/' + usr_name
                 if not os.path.exists(usr_folder):
-                    copytree('volume/userdata/ucmc2020ssRoot', usr_folder)
+                    copytree('new_user_folder', usr_folder)
                 arUsers.append({'login': usr_name, 'password': txt_pass})
 
             dataBase.session.commit()
