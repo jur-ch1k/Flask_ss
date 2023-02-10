@@ -89,9 +89,13 @@ def reports_edit():
     reports_query = Report.query.order_by(Report.date_creation)
     arReports = []
     for report in reports_query:
+        if User.query.filter_by(id=report.user_id).first() is None:
+            user = "Undefined"
+        else:
+            user = User.query.filter_by(id=report.user_id).first().username
         arReports.append({
             'report_name': report.report_name,
-            'user': User.query.filter_by(id=report.user_id).first().username,
+            'user': user,
             'data_creation': str(report.date_creation).partition('.')[0],
             'mark': report.mark,
             'comment': report.comment
@@ -147,7 +151,10 @@ def groups_edit():
         arGroupUser = Group_user.query.filter(Group_user.groupid == group.id)
         for groupUser in arGroupUser:
             user = User.query.filter(User.id == groupUser.userid).first()
-            newGroup['users'].append(user.username)
+            if user is not None:
+                newGroup['users'].append(user.username)
+            else:
+                newGroup['users'].append("Undefined")
         arResult['groups'].append(newGroup)
     return render_template('admin/groups_edit.html', title='Управление группами пользователей', arResult=arResult)
 
