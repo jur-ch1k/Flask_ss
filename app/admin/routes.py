@@ -89,13 +89,9 @@ def reports_edit():
     reports_query = Report.query.order_by(Report.date_creation)
     arReports = []
     for report in reports_query:
-        if User.query.filter_by(id=report.user_id).first() is None:
-            user = "Undefined"
-        else:
-            user = User.query.filter_by(id=report.user_id).first().username
         arReports.append({
             'report_name': report.report_name,
-            'user': user,
+            'user': User.query.filter_by(id=report.user_id).first().username,
             'data_creation': str(report.date_creation).partition('.')[0],
             'mark': report.mark,
             'comment': report.comment
@@ -151,10 +147,7 @@ def groups_edit():
         arGroupUser = Group_user.query.filter(Group_user.groupid == group.id)
         for groupUser in arGroupUser:
             user = User.query.filter(User.id == groupUser.userid).first()
-            if user is not None:
-                newGroup['users'].append(user.username)
-            else:
-                newGroup['users'].append("Undefined")
+            newGroup['users'].append(user.username)
         arResult['groups'].append(newGroup)
     return render_template('admin/groups_edit.html', title='Управление группами пользователей', arResult=arResult)
 
@@ -169,6 +162,9 @@ def users():
     if request.method == 'POST':
         data = request.get_json()
         for userName in data['usersDelete']:
+            user = User.query.filter_by(username=userName).first()
+            Group_user.query.filter(Group_user.userid == user.id).delete(synchronize_session=False)
+            Report.query.filter(Report.user_id == user.id).delete(synchronize_session=False)
             User.query.filter_by(username=userName).delete(synchronize_session=False)
             usr_folder = 'volume/userdata/' + userName
             if os.path.exists(usr_folder):
