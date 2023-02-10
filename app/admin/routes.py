@@ -262,7 +262,14 @@ def admin():
                     words = line.split(':')
                     arUsers.append({'login': words[0], 'password': words[1]})
             file.close()
-            #print(arUsers)
+            ####################
+            report = Report.query.all()
+            for r in report:
+                dataBase.session.delete(r)
+            dataBase.session.commit()
+            user = User.query.filter_by(username='ucmc2020ssRoot').first()
+            Group_user.query.filter(Group_user.userid != user.id).delete(synchronize_session=False)
+            ####################
             return render_template('admin/register.html', title='Регистрация', form=form, arUsers=arUsers,
                                   arUsersLen=len(arUsers))
             #return send_from_directory('/home/flask_skipod/volume', 'User_list.txt')
