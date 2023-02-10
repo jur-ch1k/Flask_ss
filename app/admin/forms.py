@@ -22,6 +22,6 @@ class RegisterUsers(FlaskForm):
     download = SubmitField('Скачать')
 
     # --------------debug settings--------------
-    console = StringField('console', validators=[DataRequired()])
-    console_button = SubmitField('insert command')
-    log_download = SubmitField('Скачать логи')
+    # console = StringField('console', validators=[DataRequired()])
+    # console_button = SubmitField('insert command')
+    # log_download = SubmitField('Скачать логи')
