@@ -14,8 +14,45 @@
     <h1>Register</h1>
     <!-- Теперь всё сделано с помощью bootstrap -->
     <div class="row">
-        <div class="col-md-4">
-            {{ wtf.quick_form(form) }}
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        <!-- Содержимое раскрыто: aria-expanded="true", нет класса class="collapsed" -->
+                        <a role="button" data-toggle="collapse"
+                           data-parent="#accordion" href="#collapse-one" aria-expanded="true">
+                        Регистрация пользователей
+                        </a>
+                    </h4>
+                </div>
+                <!-- Содержимое раскрыто: aria-expanded="true", есть класс class="in" -->
+                <div id="collapse-one" class="panel-collapse collapse in" role="tabpanel" aria-expanded="true">
+                    <div class="panel-body">
+                        <div class="col-md-4">
+                            {{ wtf.quick_form(form[0]) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        <!-- Содержимое скрыто: aria-expanded="false", есть класс class="collapsed" -->
+                        <a class="collapsed" role="button" data-toggle="collapse"
+                           data-parent="#accordion" href="#collapse-two" aria-expanded="false">
+                        Генерация вариантов
+                        </a>
+                    </h4>
+                </div>
+                <!-- Содержимое скрыто:  aria-expanded="false", нет класса class="in" -->
+                <div id="collapse-two" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+                    <div class="panel-body">
+                        <div class="col-md-4">
+                            {{ wtf.quick_form(form[1]) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         {#        {% if arUsersLen %}#}
         <div class="users_new">

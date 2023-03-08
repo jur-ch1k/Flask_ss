@@ -2,7 +2,7 @@ import json
 import time
 
 from app.admin import bluePrint
-from app.admin.forms import RegisterForm, RegisterUsers
+from app.admin.forms import RegisterForm, RegisterUsers, VarsCreation, ButtonForm
 from app.models import User, Group, Group_user, Report
 from app import dataBase
 # from werkzeug.local import LocalProxy
@@ -19,6 +19,9 @@ from sqlalchemy import desc
 from flask import send_from_directory
 from os import path
 from datetime import datetime
+import sympy
+import re
+import tqdm
 
 
 def checkGroup():
@@ -43,6 +46,84 @@ def find_free_num(mask):
             break
         current_users_count += 1
     return current_users_count
+
+
+def pprint(s=""):
+    # print(s) # uncomment it to see debug messagess
+    return
+
+
+def generate(program, bounds):
+    """generate all possible combinations of params"""
+    result = [program]
+
+    for name, values in bounds:
+        new_result = []
+        for old_program in result:
+            for value in values:
+                new_result.append(old_program.replace(name, str(value)))
+
+        result = new_result
+    return result
+
+
+def _simplify_right_part(right_part):
+    re_index = re.compile(r'(\[[^]]+\])')
+    replace_dict = {}
+
+    letters = [chr(ord('Z') - x) for x in range(20)]
+    letter_index = 0
+
+    for index in re_index.findall(right_part):
+        replace_dict[index] = letters[letter_index]
+        letter_index += 1
+
+    result = right_part
+
+    pprint()
+    pprint(right_part)
+
+    for k, v in replace_dict.items():
+        result = result.replace(k, v)
+    pprint(result)
+
+    result = str(sympy.simplify(result))
+    pprint(result)
+
+    for k, v in replace_dict.items():
+        index = k.strip('[]')
+        simple_index = str(sympy.simplify(index))
+
+        result = result.replace(v, f"[{simple_index}]")
+    pprint(result)
+    pprint()
+
+    return result
+
+
+def simplify(program):
+    """simplify all things like (1-1)*A, A[i+-1] and so on"""
+    re_right_part = re.compile(r'.*=(.*);\n')
+    result = program
+
+    for right_part in re_right_part.findall(program):
+        result = result.replace(right_part, " " + _simplify_right_part(right_part))
+
+    return result
+
+
+def generate_vars(program, bounds, output_dir):
+    all_vars = generate(program, bounds)
+
+    try:
+        os.mkdir(output_dir)
+    except FileExistsError:
+        pass
+
+    for i, program in tqdm.tqdm(enumerate(all_vars)):
+        with open(f"{output_dir}/program_{str(i)}.c", "w") as fd:
+            fd.write(simplify(program))
+
 
 @bluePrint.route('/admin/reports/<path:filename>', methods=['GET', 'POST'])
 @login_required
@@ -162,9 +243,6 @@ def users():
     if request.method == 'POST':
         data = request.get_json()
         for userName in data['usersDelete']:
-            user = User.query.filter_by(username=userName).first()
-            Group_user.query.filter(Group_user.userid == user.id).delete(synchronize_session=False)
-            Report.query.filter(Report.user_id == user.id).delete(synchronize_session=False)
             User.query.filter_by(username=userName).delete(synchronize_session=False)
             usr_folder = 'volume/userdata/' + userName
             if os.path.exists(usr_folder):
@@ -185,7 +263,7 @@ def admin_forward():
     if checkGroup() is False:
         return render_template('errors/500.html')
 
-    form = RegisterUsers()
+    form = [RegisterUsers(), VarsCreation(), ButtonForm]
     return render_template('admin/register.html', title='Регистрация', form=form, arUsers=[], arUsersLen=0)
 
 
@@ -193,38 +271,57 @@ def admin_forward():
 @bluePrint.route('/admin/register', methods=['GET', 'POST'])
 @login_required
 def admin():
-    # print(current_user.username)
-    # if current_user.username != 'ucmc2020ssRoot':
-    #     return render_template('errors/500.html')
     if checkGroup() is False:
         return render_template('errors/500.html')
-    # current_user = LocalProxy(lambda: _get_user())
     form = RegisterUsers()
+    var_form = VarsCreation()
+    button = ButtonForm()
+
     # Отправили заполненную форму
-    if form.validate_on_submit():
+    if form.validate_on_submit() and var_form.validate_on_submit() and button.validate_on_submit():
+
+        print('usr = ', form.submit.data)
+        print('var = ', var_form.create.data)
+
+
+        if var_form.create.data:
+            bouds = [
+                'p1', [],
+                'p2', [],
+                'p3', [],
+                'p4', [],
+                'p5', [],
+                'p6', [],
+            ]
+            print('AOAOAOAAOAOAAOAO')
+            print('AOAOAOAAOAOAAOAO')
+            print('AOAOAOAAOAOAAOAO')
+            print('AOAOAOAAOAOAAOAO')
+            print('AOAOAOAAOAOAAOAO')
+            print('AOAOAOAAOAOAAOAO')
+            print('AOAOAOAAOAOAAOAO')
+            print('AOAOAOAAOAOAAOAO')
+            print('AOAOAOAAOAOAAOAO')
+            print('AOAOAOAAOAOAAOAO')
+            print ([int(s) for s in var_form.p1.data.split(' ')])
+            print ([int(s) for s in var_form.p2.data.split(' ')])
+            print ([int(s) for s in var_form.p3.data.split(' ')])
+            print ([int(s) for s in var_form.p4.data.split(' ')])
+            print ([int(s) for s in var_form.p5.data.split(' ')])
+            print ([int(s) for s in var_form.p6.data.split(' ')])
+            #generate_vars(form.program)
         if form.submit.data:
             arUsers = []
             new_user_count = int(form.userNumber.data)
             mask = form.mask.data
             # поиск номера несуществующего пользователя
             current_users_count = find_free_num(mask)
-            # while 1:
-            #     # curUser = 'ucmc' + year + 'ss' + format(current_users_count, '03d')
-            #     curUser = mask + format(current_users_count, '03d')
-            #     user = User.query.filter_by(
-            #         username=curUser).first()
-            #     if user is None:
-            #         break
-            #     current_users_count += 1
-            # добавление новых пользователей
-            old_i = 0
             for i in range(0, new_user_count):
-                usr_name = mask + format(i + current_users_count - old_i, '03d')
+                usr_name = mask + format(i + current_users_count, '03d')
                 # проверка на то, свободно ли нынешнее имя
                 if User.query.filter_by(username=usr_name).first() is not None:
                     current_users_count = find_free_num(mask)
                     usr_name = mask + format(current_users_count, '03d')
-                    old_i = i
                 txt_pass_count = 12
                 usr_list = open("volume/User_list.txt", "a")
                 txt_pass = ''.join(random.choices(string.ascii_letters + string.digits, k=txt_pass_count))
@@ -237,34 +334,19 @@ def admin():
                 # create folders for new users
                 usr_folder = 'volume/userdata/' + usr_name
                 if not os.path.exists(usr_folder):
-                    copytree('new_user_folder', usr_folder)
+                    copytree('volume/userdata/ucmc2020ssRoot', usr_folder)
                 arUsers.append({'login': usr_name, 'password': txt_pass})
 
             dataBase.session.commit()
-            # next_page = request.args.get('next')
-            return render_template('admin/register.html', title='Регистрация', form=form, arUsers=arUsers,
-                                   arUsersLen=len(arUsers))
-        if form.download.data:
-            file = open('/home/flask_skipod/volume/User_list.txt', 'r')
-            lines = file.readlines()
-            mask = form.mask.data
-            arUsers = []
-            for line in lines:
-                if mask in line:
-                    line = line[:-1]
-                    words = line.split(':')
-                    arUsers.append({'login': words[0], 'password': words[1]})
-            file.close()
-            return render_template('admin/register.html', title='Регистрация', form=form, arUsers=arUsers,
-                                  arUsersLen=len(arUsers))
-            #return send_from_directory('/home/flask_skipod/volume', 'User_list.txt')
+            return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button], arUsers=arUsers,
+                               arUsersLen=len(arUsers))
 
         # --------------debug settings--------------
-        if form.log_download.data:
-            return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
-        if form.console_button.data:
-            os.system(form.console.data + "> a.txt")
-            return send_from_directory('/home/flask_skipod', 'a.txt')
+        # if form.log_download.data:
+        #     return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
+        # if form.console_button.data:
+        #     os.system(form.console.data + "> a.txt")
+        #     return send_from_directory('/home/flask_skipod', 'a.txt')
 
         # DB ANNIHILATOR 3000
 
@@ -284,5 +366,4 @@ def admin():
         #     new_user.set_password('wi5RepSi')
         #     dataBase.session.add(new_user)
         #     dataBase.session.commit()
-    return render_template('admin/register.html', title='Регистрация', form=form, arUsers=[], arUsersLen=0)
-    # return render_template('admin.html', title='Администрирование')
+    return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button], arUsers=[], arUsersLen=0)
