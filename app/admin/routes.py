@@ -208,15 +208,6 @@ def admin():
             mask = form.mask.data
             # поиск номера несуществующего пользователя
             current_users_count = find_free_num(mask)
-            # while 1:
-            #     # curUser = 'ucmc' + year + 'ss' + format(current_users_count, '03d')
-            #     curUser = mask + format(current_users_count, '03d')
-            #     user = User.query.filter_by(
-            #         username=curUser).first()
-            #     if user is None:
-            #         break
-            #     current_users_count += 1
-            # добавление новых пользователей
             old_i = 0
             for i in range(0, new_user_count):
                 usr_name = mask + format(i + current_users_count - old_i, '03d')
