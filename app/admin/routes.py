@@ -36,6 +36,7 @@ def checkGroup():
     else:
         return True
 
+
 def find_free_num(mask):
     current_users_count = 0
     while 1:
@@ -112,9 +113,9 @@ def simplify(program):
     return result
 
 
-def generate_vars(program, bounds, output_dir):
+def generate_vars(program, bounds, output_dir='volume/vars', preview=False):
     all_vars = generate(program, bounds)
-
+    preview_var = ""
     try:
         os.mkdir(output_dir)
     except FileExistsError:
@@ -122,6 +123,8 @@ def generate_vars(program, bounds, output_dir):
 
     for i, program in tqdm.tqdm(enumerate(all_vars)):
         with open(f"{output_dir}/program_{str(i)}.c", "w") as fd:
+            if preview:
+                return simplify(program)
             fd.write(simplify(program))
 
 
@@ -160,11 +163,11 @@ def reports_edit():
         if data['method'] == 'edit_mark':
             userId = User.query.filter_by(username=data['user']).first().id
             report = Report.query.filter_by(user_id=userId, report_name=data['report']).first()
-            report.mark=data['mark']
+            report.mark = data['mark']
         if data['method'] == 'edit_comment':
             userId = User.query.filter_by(username=data['user']).first().id
             report = Report.query.filter_by(user_id=userId, report_name=data['report']).first()
-            report.comment=data['comment']
+            report.comment = data['comment']
         dataBase.session.commit()
         return json.dumps({'status': 'OK'})
     reports_query = Report.query.order_by(Report.date_creation)
@@ -222,9 +225,7 @@ def groups_edit():
     # arResult['groups'] = {}
     arResult['groups'] = []
     for group in arGroups:
-        newGroup = {}
-        newGroup['name'] = group.groupname
-        newGroup['users'] = []
+        newGroup = {'name': group.groupname, 'users': []}
         arGroupUser = Group_user.query.filter(Group_user.groupid == group.id)
         for groupUser in arGroupUser:
             user = User.query.filter(User.id == groupUser.userid).first()
@@ -264,7 +265,8 @@ def admin_forward():
         return render_template('errors/500.html')
 
     form = [RegisterUsers(), VarsCreation(), ButtonForm]
-    return render_template('admin/register.html', title='Регистрация', form=form, arUsers=[], arUsersLen=0)
+    return render_template('admin/register.html', title='Регистрация', form=form,
+                           arUsers=[], arUsersLen=0, preview=0)
 
 
 # страница регистрации новых пользователей
@@ -280,36 +282,28 @@ def admin():
     # Отправили заполненную форму
     if form.validate_on_submit() and var_form.validate_on_submit() and button.validate_on_submit():
 
-        print('usr = ', form.submit.data)
-        print('var = ', var_form.create.data)
-
-
+        bounds = [
+            ('p1', [int(s) for s in var_form.p1.data.split(' ')]),
+            ('p2', [int(s) for s in var_form.p2.data.split(' ')]),
+            ('p3', [int(s) for s in var_form.p3.data.split(' ')]),
+            ('p4', [int(s) for s in var_form.p4.data.split(' ')]),
+            ('p5', [int(s) for s in var_form.p5.data.split(' ')]),
+            ('p6', [int(s) for s in var_form.p6.data.split(' ')])
+        ]
+        if var_form.preview.data:
+            # todo сохранение и прочее с .json
+            # if var_form.program.data == .json.program.data && pi.old == pi.new => ничо не далать
+            # if var_form.program.data != .json.program.data || pi.old != pi.new => сохранить новое
+            return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button],
+                                   arUsers=[], arUsersLen=0,
+                                   preview=generate_vars(var_form.program.data, bounds, preview=True))
         if var_form.create.data:
-            bouds = [
-                'p1', [],
-                'p2', [],
-                'p3', [],
-                'p4', [],
-                'p5', [],
-                'p6', [],
-            ]
-            print('AOAOAOAAOAOAAOAO')
-            print('AOAOAOAAOAOAAOAO')
-            print('AOAOAOAAOAOAAOAO')
-            print('AOAOAOAAOAOAAOAO')
-            print('AOAOAOAAOAOAAOAO')
-            print('AOAOAOAAOAOAAOAO')
-            print('AOAOAOAAOAOAAOAO')
-            print('AOAOAOAAOAOAAOAO')
-            print('AOAOAOAAOAOAAOAO')
-            print('AOAOAOAAOAOAAOAO')
-            print ([int(s) for s in var_form.p1.data.split(' ')])
-            print ([int(s) for s in var_form.p2.data.split(' ')])
-            print ([int(s) for s in var_form.p3.data.split(' ')])
-            print ([int(s) for s in var_form.p4.data.split(' ')])
-            print ([int(s) for s in var_form.p5.data.split(' ')])
-            print ([int(s) for s in var_form.p6.data.split(' ')])
-            #generate_vars(form.program)
+            # todo сохранение и прочее с .json
+            # if var_form.program.data == .json.program.data && pi.old == pi.new => ничо не далать
+            # if var_form.program.data != .json.program.data || pi.old != pi.new => сохранить новое
+            return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button],
+                                   arUsers=[], arUsersLen=0, preview=False)
+
         if form.submit.data:
             arUsers = []
             new_user_count = int(form.userNumber.data)
@@ -338,8 +332,8 @@ def admin():
                 arUsers.append({'login': usr_name, 'password': txt_pass})
 
             dataBase.session.commit()
-            return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button], arUsers=arUsers,
-                               arUsersLen=len(arUsers))
+            return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button],
+                                   arUsers=arUsers, arUsersLen=len(arUsers), preview=False)
 
         # --------------debug settings--------------
         # if form.log_download.data:
@@ -366,4 +360,5 @@ def admin():
         #     new_user.set_password('wi5RepSi')
         #     dataBase.session.add(new_user)
         #     dataBase.session.commit()
-    return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button], arUsers=[], arUsersLen=0)
+    return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button],
+                           arUsers=[], arUsersLen=0, preview=False)

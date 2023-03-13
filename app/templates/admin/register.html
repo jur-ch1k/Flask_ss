@@ -45,11 +45,20 @@
                     </h4>
                 </div>
                 <!-- Содержимое скрыто:  aria-expanded="false", нет класса class="in" -->
+<!--                TODO если выбран предпросмотр, то открыто именно эта штука-->
                 <div id="collapse-two" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
                     <div class="panel-body">
                         <div class="col-md-4">
                             {{ wtf.quick_form(form[1]) }}
                         </div>
+                        {% if preview %}
+                        <div class="form-group">
+                            <label class="preview_label" id="preview_label" for="preview">Предпросмотр</label>
+                            <textarea readonly id="preview" name="preview">
+                                {{ preview }}
+                            </textarea>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

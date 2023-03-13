@@ -21,9 +21,11 @@ class RegisterUsers(FlaskForm):
     submit = SubmitField('Создать пользователей')
     # download = SubmitField('Скачать')
 
+
 class VarsCreation(FlaskForm):
     # use_last = BooleanField('Использовать предыдущее задание')
-    program = TextAreaField('Program', default="""for(i = 2; i <= n+1; ++i)
+    program = TextAreaField('Program', default="""
+for(i = 2; i <= n+1; ++i)
    C[i] = C[i+p1] + D[i];
 for(i = 2; i <= n+1; ++i)
    for(j = 2; j <= m+1; ++j)
@@ -40,6 +42,7 @@ for(i = 2; i <= n+1; ++i) {
     p4 = StringField('p4', default='0 1', description='Дуги из одномерного гнезда идут или нет в двумерное, дуги из двумерного идут или нет в трёхмерное.')
     p5 = StringField('p5', default='0 1', description='Зависимость в трёхмерном гнезде либо от первой итерации по k, либо от (k-1)-ой.')
     p6 = StringField('p6', default='0 1', description='Зависимость в трёхмерном гнезде либо вдоль i, либо вдоль j.')
+    preview = SubmitField('Предпросмотр варианта')
     create = SubmitField('Генерация вариантов')
 
 
