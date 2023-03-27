@@ -350,6 +350,7 @@ def admin():
             return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button],
                                    arUsers=[], arUsersLen=0, preview=False)
 
+        #TODO выдача пользователям варианта => надо поменять таблицы
         if form.submit.data:
             arUsers = []
             new_user_count = int(form.userNumber.data)
