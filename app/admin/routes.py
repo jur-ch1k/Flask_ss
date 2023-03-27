@@ -49,6 +49,32 @@ def find_free_num(mask):
     return current_users_count
 
 
+OUTPUT_DIR = "result"
+
+PROGRAM = """
+for(i = 2; i <= n+1; ++i)
+   C[i] = C[i+p1] + D[i];
+for(i = 2; i <= n+1; ++i)
+   for(j = 2; j <= m+1; ++j)
+      B[i][j] = B[i+p2][j+p3] + p4*C[n+1];
+for(i = 2; i <= n+1; ++i){
+   A[i][1][1]=C[i]+(1-p4)*B[i][m+1];
+   for(j = 2; j <= m+1; ++j){
+      for(k = 1; k <= n; ++k)
+         A[i][j][k] = A[i][j][k] + p5*A[i-p6][j-(1-p6)][k] + (1-p5)*A[i-(1-p6)][j-p6][k-1];
+}
+"""
+
+BOUNDS = [
+    ("p1", [-1, 1]),
+    ("p2", [-2, -1, 0, 1]),
+    ("p3", [-2, -1, 0, 1]),
+    ("p4", [0, 1]),
+    ("p5", [0, 1]),
+    ("p6", [0, 1]),
+]
+
+
 def pprint(s=""):
     # print(s) # uncomment it to see debug messagess
     return
@@ -68,8 +94,11 @@ def generate(program, bounds):
     return result
 
 
+re_right_part = re.compile(r'.*=(.*);\n')
+re_index = re.compile(r'(\[[^]]+\])')
+
+
 def _simplify_right_part(right_part):
-    re_index = re.compile(r'(\[[^]]+\])')
     replace_dict = {}
 
     letters = [chr(ord('Z') - x) for x in range(20)]
@@ -104,7 +133,6 @@ def _simplify_right_part(right_part):
 
 def simplify(program):
     """simplify all things like (1-1)*A, A[i+-1] and so on"""
-    re_right_part = re.compile(r'.*=(.*);\n')
     result = program
 
     for right_part in re_right_part.findall(program):
@@ -115,16 +143,16 @@ def simplify(program):
 
 def generate_vars(program, bounds, output_dir='volume/vars', preview=False):
     all_vars = generate(program, bounds)
-    preview_var = ""
+
     try:
         os.mkdir(output_dir)
     except FileExistsError:
         pass
 
     for i, program in tqdm.tqdm(enumerate(all_vars)):
+        if preview:
+            return simplify(program)
         with open(f"{output_dir}/program_{str(i)}.c", "w") as fd:
-            if preview:
-                return simplify(program)
             fd.write(simplify(program))
 
 
@@ -281,26 +309,44 @@ def admin():
 
     # Отправили заполненную форму
     if form.validate_on_submit() and var_form.validate_on_submit() and button.validate_on_submit():
+        params = {}
+        bounds = []
 
-        bounds = [
-            ('p1', [int(s) for s in var_form.p1.data.split(' ')]),
-            ('p2', [int(s) for s in var_form.p2.data.split(' ')]),
-            ('p3', [int(s) for s in var_form.p3.data.split(' ')]),
-            ('p4', [int(s) for s in var_form.p4.data.split(' ')]),
-            ('p5', [int(s) for s in var_form.p5.data.split(' ')]),
-            ('p6', [int(s) for s in var_form.p6.data.split(' ')])
-        ]
+        if var_form.preview.data or var_form.create.data:
+            new_params = {}
+            old_params = {}
+            with open('volume/vars.json') as f:
+                old_params = json.load(f)
+            new_params = {"program": var_form.program.data.replace('\r', ''),
+                          "p1": var_form.p1.data,
+                          "p2": var_form.p2.data,
+                          "p3": var_form.p3.data,
+                          "p4": var_form.p4.data,
+                          "p5": var_form.p5.data,
+                          "p6": var_form.p6.data
+                          }
+            if old_params == new_params:
+                print('True')
+            else:
+                print('False')
+                with open('volume/vars.json', 'w') as f:
+                    json.dump(new_params, f)
+            params = new_params
+            bounds = [
+                ("p1", [int(s) for s in params['p1'].split(' ')]),
+                ("p2", [int(s) for s in params['p2'].split(' ')]),
+                ("p3", [int(s) for s in params['p3'].split(' ')]),
+                ("p4", [int(s) for s in params['p4'].split(' ')]),
+                ("p5", [int(s) for s in params['p5'].split(' ')]),
+                ("p6", [int(s) for s in params['p6'].split(' ')]),
+            ]
+
         if var_form.preview.data:
-            # todo сохранение и прочее с .json
-            # if var_form.program.data == .json.program.data && pi.old == pi.new => ничо не далать
-            # if var_form.program.data != .json.program.data || pi.old != pi.new => сохранить новое
             return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button],
                                    arUsers=[], arUsersLen=0,
-                                   preview=generate_vars(var_form.program.data, bounds, preview=True))
+                                   preview=generate_vars(params['program'], bounds, preview=True))
         if var_form.create.data:
-            # todo сохранение и прочее с .json
-            # if var_form.program.data == .json.program.data && pi.old == pi.new => ничо не далать
-            # if var_form.program.data != .json.program.data || pi.old != pi.new => сохранить новое
+            generate_vars(params['program'], bounds)
             return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button],
                                    arUsers=[], arUsersLen=0, preview=False)
 
