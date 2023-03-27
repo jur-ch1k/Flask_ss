@@ -356,12 +356,14 @@ def admin():
             mask = form.mask.data
             # поиск номера несуществующего пользователя
             current_users_count = find_free_num(mask)
+            old_i = 0
             for i in range(0, new_user_count):
                 usr_name = mask + format(i + current_users_count, '03d')
                 # проверка на то, свободно ли нынешнее имя
                 if User.query.filter_by(username=usr_name).first() is not None:
                     current_users_count = find_free_num(mask)
-                    usr_name = mask + format(current_users_count, '03d')
+                    usr_name = mask + format(current_users_count - old_i, '03d')
+                    old_i = i
                 txt_pass_count = 12
                 usr_list = open("volume/User_list.txt", "a")
                 txt_pass = ''.join(random.choices(string.ascii_letters + string.digits, k=txt_pass_count))
