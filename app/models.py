@@ -12,6 +12,9 @@ class Report(UserMixin, dataBase.Model):
     date_creation = dataBase.Column(dataBase.DateTime, default=datetime.utcnow())
     comment = dataBase.Column(dataBase.String(300))
 
+    var_num = dataBase.Column(dataBase.Integer)
+    var_file = dataBase.Column(dataBase.String(128))
+
 class Group(UserMixin, dataBase.Model):
     id = dataBase.Column(dataBase.Integer, primary_key=True)
     groupname = dataBase.Column(dataBase.String(64), index=True, unique=True)
@@ -36,6 +39,9 @@ class User(UserMixin, dataBase.Model):
 
     about_me = dataBase.Column(dataBase.String(140))
     last_seen = dataBase.Column(dataBase.DateTime, default=datetime.utcnow())
+
+    var_num = dataBase.Column(dataBase.Integer)
+    var_file = dataBase.Column(dataBase.String(128))
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

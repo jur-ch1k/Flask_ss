@@ -1,27 +1,19 @@
-import json
-import time
-
 from app.admin import bluePrint
 from app.admin.forms import RegisterForm, RegisterUsers, VarsCreation, ButtonForm
 from app.models import User, Group, Group_user, Report
 from app import dataBase
-# from werkzeug.local import LocalProxy
 from flask import render_template, flash, redirect, url_for, request, url_for, send_from_directory
-from werkzeug.urls import url_parse
 from flask_login import current_user, login_required
-# from distutils.dir_util import copy_tree, remove_tree
-import random
-from datetime import date
-import string
-import os
 from shutil import copytree, rmtree
 from sqlalchemy import desc
 from flask import send_from_directory
-from os import path
-from datetime import datetime
+import random
+import string
 import sympy
-import re
 import tqdm
+import json
+import os
+import re
 
 
 def checkGroup():
@@ -47,32 +39,6 @@ def find_free_num(mask):
             break
         current_users_count += 1
     return current_users_count
-
-
-OUTPUT_DIR = "result"
-
-PROGRAM = """
-for(i = 2; i <= n+1; ++i)
-   C[i] = C[i+p1] + D[i];
-for(i = 2; i <= n+1; ++i)
-   for(j = 2; j <= m+1; ++j)
-      B[i][j] = B[i+p2][j+p3] + p4*C[n+1];
-for(i = 2; i <= n+1; ++i){
-   A[i][1][1]=C[i]+(1-p4)*B[i][m+1];
-   for(j = 2; j <= m+1; ++j){
-      for(k = 1; k <= n; ++k)
-         A[i][j][k] = A[i][j][k] + p5*A[i-p6][j-(1-p6)][k] + (1-p5)*A[i-(1-p6)][j-p6][k-1];
-}
-"""
-
-BOUNDS = [
-    ("p1", [-1, 1]),
-    ("p2", [-2, -1, 0, 1]),
-    ("p3", [-2, -1, 0, 1]),
-    ("p4", [0, 1]),
-    ("p5", [0, 1]),
-    ("p6", [0, 1]),
-]
 
 
 def pprint(s=""):
@@ -147,7 +113,8 @@ def generate_vars(program, bounds, output_dir='volume/vars', preview=False):
     try:
         os.mkdir(output_dir)
     except FileExistsError:
-        pass
+        rmtree(output_dir)
+        os.mkdir(output_dir)
 
     for i, program in tqdm.tqdm(enumerate(all_vars)):
         if preview:
@@ -164,8 +131,11 @@ def download(filename):
     data = request.args.get('user')
     cur_abs_path = os.path.abspath(os.path.curdir)
     user_folder = User.query.filter_by(username=data).first().local_folder
-    usr_report_path = "volume/userdata/" + user_folder + "/reports"
+    usr_report_path = "/volume/userdata/" + user_folder + "/reports"
     dir = cur_abs_path + usr_report_path
+    print(dir)
+    print(dir)
+    print(dir)
     return send_from_directory(directory=dir, filename=filename, as_attachment=True)
 
 
@@ -206,7 +176,8 @@ def reports_edit():
             'user': User.query.filter_by(id=report.user_id).first().username,
             'data_creation': str(report.date_creation).partition('.')[0],
             'mark': report.mark,
-            'comment': report.comment
+            'comment': report.comment,
+            'var_file': report.var_file
         })
     return render_template('admin/reports.html', title='Отчеты', reports=arReports)
 
@@ -325,10 +296,7 @@ def admin():
                           "p5": var_form.p5.data,
                           "p6": var_form.p6.data
                           }
-            if old_params == new_params:
-                print('True')
-            else:
-                print('False')
+            if old_params != new_params:
                 with open('volume/vars.json', 'w') as f:
                     json.dump(new_params, f)
             params = new_params
@@ -358,6 +326,11 @@ def admin():
             # поиск номера несуществующего пользователя
             current_users_count = find_free_num(mask)
             old_i = 0
+            try:
+                var_num = len(os.listdir('volume/vars'))
+            except FileNotFoundError:
+                var_num = 0
+
             for i in range(0, new_user_count):
                 usr_name = mask + format(i + current_users_count, '03d')
                 # проверка на то, свободно ли нынешнее имя
@@ -371,13 +344,14 @@ def admin():
                 usr_list.write(usr_name + " : " + txt_pass + "\n")
                 # It works correctly but further investigation on what's going on required.
                 # добавление пользователя в бд
-                new_user = User(username=usr_name, local_folder=usr_name)
+                new_user = User(username=usr_name, local_folder=usr_name,
+                                var_num=i % var_num, var_file='program_' + str(i % var_num) + '.c')
                 new_user.set_password(txt_pass)
                 dataBase.session.add(new_user)
                 # create folders for new users
                 usr_folder = 'volume/userdata/' + usr_name
                 if not os.path.exists(usr_folder):
-                    copytree('volume/userdata/ucmc2020ssRoot', usr_folder)
+                    copytree('new_user_folder', usr_folder)
                 arUsers.append({'login': usr_name, 'password': txt_pass})
 
             dataBase.session.commit()

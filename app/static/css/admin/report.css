@@ -43,11 +43,15 @@
     width: 144%;
 }
 .row span.data-creation {
-    width: 14%;
+    width: 10%;
+}
+
+.row span.report-var_num {
+    width: 10%;
 }
 
 .row span.report-name {
-    width: 35%;
+    width: 25%;
 }
 
 .table-content span.report-name {
@@ -59,11 +63,15 @@
 }
 
 .table-header .report-name p {
-    padding-left: 40%;
+    padding-left: 30%;
 }
 
 .table-header .data-creation p {
-    padding-left: 10%;
+    padding-left: 5%;
+}
+
+.table-header .report-var_num p {
+    padding-left: 0%;
 }
 
 .table-header .report-comment p {
@@ -114,7 +122,7 @@
 }
 
 .table-header span.report-name img {
-    right: 40%;
+    right: 0%;
 }
 
 .table-header span.report-user img {
@@ -122,6 +130,10 @@
 }
 
 .table-header span.data-creation img {
+    right: 0%;
+}
+
+.table-header span.report-var_num img {
     right: 0%;
 }
 

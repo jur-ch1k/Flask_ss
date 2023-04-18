@@ -362,3 +362,14 @@ Traceback (most recent call last):
   File "/home/new_user/Desktop/Flask_ss/venv/lib/python3.8/site-packages/flask/app.py", line 1326, in handle_http_exception
     return self.ensure_sync(handler)(e)
 TypeError: not_found_error() takes 0 positional arguments but 1 was given
+2023-04-04 10:59:12,992 INFO: Microbial startup [int /home/jur-chik/Desktop/Flask/Flask_ss/app/__init__.py:77]
+2023-04-04 11:03:38,011 INFO: Microbial startup [int /home/jur-chik/Desktop/Flask/Flask_ss/app/__init__.py:77]
+2023-04-04 11:04:03,698 INFO: Microbial startup [int /home/jur-chik/Desktop/Flask/Flask_ss/app/__init__.py:77]
+2023-04-04 11:11:32,050 INFO: Microbial startup [int /home/jur-chik/Desktop/Flask/Flask_ss/app/__init__.py:77]
+2023-04-04 11:11:36,157 INFO: Microbial startup [int /home/jur-chik/Desktop/Flask/Flask_ss/app/__init__.py:77]
+2023-04-04 11:23:10,788 INFO: Microbial startup [int /home/jur-chik/Desktop/Flask/Flask_ss/app/__init__.py:77]
+2023-04-07 16:49:02,190 INFO: Microbial startup [int /home/jur-chik/Desktop/Flask/Flask_ss/app/__init__.py:77]
+2023-04-07 16:49:14,205 INFO: Microbial startup [int /home/jur-chik/Desktop/Flask/Flask_ss/app/__init__.py:77]
+2023-04-07 16:49:46,691 INFO: Microbial startup [int /home/jur-chik/Desktop/Flask/Flask_ss/app/__init__.py:77]
+2023-04-07 16:49:48,757 INFO: Microbial startup [int /home/jur-chik/Desktop/Flask/Flask_ss/app/__init__.py:77]
+2023-04-18 17:06:31,934 INFO: Microbial startup [int /home/jur-chik/Desktop/Flask/Flask_ss/app/__init__.py:77]

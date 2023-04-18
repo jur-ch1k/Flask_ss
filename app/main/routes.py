@@ -44,6 +44,13 @@ def user_page(username):
     user = User.query.filter_by(username=username).first_or_404()
     return render_template('user.html', title='Моя страница', user=user, graph_name=graph_name)
 
+@bluePrint.route('/user/<username>/task')
+@login_required
+def download_var(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return send_from_directory(directory='/home/flask_skipod/volume/vars', filename=user.var_file, as_attachment=True)
+    # return render_template('user.html', title='Моя страница', user=user, graph_name=graph_name)
+
 
 @bluePrint.route('/upload_report/<path:filename>', methods=['GET', 'POST'])
 def download(filename):
@@ -62,8 +69,8 @@ def upload_report():
         cur_abs_path = os.path.abspath(os.path.curdir)
         usr_report_path = "/volume/userdata/" + current_user.local_folder + "/reports"
         # Нужно создать локальную директорию для хранения данных по адресу, который выдан этому юзверю (если таковой есть)
-        if not os.path.exists(cur_abs_path + usr_report_path):
-            os.makedirs(cur_abs_path + usr_report_path, mode=0x777, exist_ok=True)
+        # if not os.path.exists(cur_abs_path + usr_report_path):
+        #     os.makedirs(cur_abs_path + usr_report_path, mode=0x777, exist_ok=True)
         # Нужно записать в эту директорию загнанные данные.
         if os.path.exists(cur_abs_path + usr_report_path):
             report_name = form.file_data.data.filename
@@ -74,7 +81,9 @@ def upload_report():
                         synchronize_session=False)
             form.file_data.data.save(cur_abs_path + usr_report_path + "/" + report_name)
             if os.path.exists(cur_abs_path + usr_report_path + "/" + report_name):
-                new_report = Report(report_name=report_name, user_id=current_user.id, date_creation=datetime.utcnow())
+                new_report = Report(report_name=report_name, user_id=current_user.id,
+                                    date_creation=datetime.utcnow(), var_num=current_user.var_num,
+                                    var_file=current_user.var_file)
                 dataBase.session.add(new_report)
         dataBase.session.commit()
         # Всё необходимое создано, возвращаемся на страницу пользователя
