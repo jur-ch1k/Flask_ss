@@ -110,11 +110,12 @@ def simplify(program):
 def generate_vars(program, bounds, output_dir='volume/vars', preview=False):
     all_vars = generate(program, bounds)
 
-    try:
-        os.mkdir(output_dir)
-    except FileExistsError:
-        rmtree(output_dir)
-        os.mkdir(output_dir)
+    if preview is False:
+        try:
+            os.mkdir(output_dir)
+        except FileExistsError:
+            rmtree(output_dir)
+            os.mkdir(output_dir)
 
     for i, program in tqdm.tqdm(enumerate(all_vars)):
         if preview:
@@ -348,7 +349,7 @@ def admin():
                                 var_num=i % var_num, var_file='program_' + str(i % var_num) + '.c')
                 new_user.set_password(txt_pass)
                 dataBase.session.add(new_user)
-                # create folders for new users
+                # create folders for new usersauto
                 usr_folder = 'volume/userdata/' + usr_name
                 if not os.path.exists(usr_folder):
                     copytree('new_user_folder', usr_folder)
@@ -361,7 +362,7 @@ def admin():
         # --------------debug settings--------------
         # if var_form.log_download.data:
         #     return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
-        # if var_form.console_button.data:
+        # if var_form.console_button.data:auto
         #     os.system(var_form.console.data + "> a.txt")
         #     return send_from_directory('/home/flask_skipod', 'a.txt')
 

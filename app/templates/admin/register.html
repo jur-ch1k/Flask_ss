@@ -52,9 +52,9 @@
                             {{ wtf.quick_form(form[1]) }}
                         </div>
                         {% if preview %}
-                        <div class="form-group">
+                        <div class="col-md-4">
                             <label id="preview_label" for="preview">Предпросмотр</label>
-                            <textarea readonly id="preview" name="preview">{{ preview }}</textarea>
+                            <textarea readonly id="preview" class="form-control" name="preview">{{ preview }}</textarea>
                         </div>
                         {% endif %}
                     </div>
@@ -69,5 +69,12 @@
             {% endfor %}
         </div>
     </div>
-    {#        {% endif %}#}
+<!--{#        {% if arUsersLen %}#}-->
+<!--        <div class="users_new">-->
+<!--            <div class="table_row"><span><p>Login</p></span><span><p>Password</p></span></div>-->
+<!--            {% for user in arUsers %}-->
+<!--                <div class="table_row"><span><p>{{ user.login }}</p></span><span><p>{{ user.password }}</p></span></div>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+<!--    {#        {% endif %}#}-->
 {% endblock %}
