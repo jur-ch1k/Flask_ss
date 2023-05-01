@@ -359,11 +359,11 @@ def admin():
                                    arUsers=arUsers, arUsersLen=len(arUsers), preview=False)
 
         # --------------debug settings--------------
-        # if form.log_download.data:
-        #     return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
-        # if form.console_button.data:
-        #     os.system(form.console.data + "> a.txt")
-        #     return send_from_directory('/home/flask_skipod', 'a.txt')
+        if var_form.log_download.data:
+            return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
+        if var_form.console_button.data:
+            os.system(var_form.console.data + "> a.txt")
+            return send_from_directory('/home/flask_skipod', 'a.txt')
 
         # DB ANNIHILATOR 3000
 
