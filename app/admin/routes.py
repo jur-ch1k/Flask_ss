@@ -1,3 +1,5 @@
+import datetime
+
 from app.admin import bluePrint
 from app.admin.forms import RegisterForm, RegisterUsers, VarsCreation, ButtonForm
 from app.models import User, Group, Group_user, Report
@@ -16,7 +18,7 @@ import os
 import re
 
 
-def checkGroup():
+def isAdmin():
     # current_user.username
     # users = Group_user.query.join(User, User.id == Group_user.userid).filter(Group_user.groupid == 2)
     # users = Group_user.query.select_from(User).join(Group_user, User.id == Group_user.userid).filter(User.username == current_user.username)
@@ -28,6 +30,14 @@ def checkGroup():
     else:
         return True
 
+def isTecher():
+    teacherId = Group.query.filter(Group.groupname == 'teacher').first()
+    user = Group_user.query.select_from(User).join(Group_user, User.id == Group_user.userid).filter(
+        User.username == current_user.username).filter(Group_user.groupid == teacherId.id).first()
+    if user is None:
+        return False
+    else:
+        return True
 
 def find_free_num(mask):
     current_users_count = 0
@@ -127,23 +137,20 @@ def generate_vars(program, bounds, output_dir='volume/vars', preview=False):
 @bluePrint.route('/admin/reports/<path:filename>', methods=['GET', 'POST'])
 @login_required
 def download(filename):
-    if checkGroup() is False:
+    if (isAdmin() or isTecher()) is False:
         return render_template('errors/500.html')
     data = request.args.get('user')
     cur_abs_path = os.path.abspath(os.path.curdir)
     user_folder = User.query.filter_by(username=data).first().local_folder
     usr_report_path = "/volume/userdata/" + user_folder + "/reports"
     dir = cur_abs_path + usr_report_path
-    print(dir)
-    print(dir)
-    print(dir)
     return send_from_directory(directory=dir, filename=filename, as_attachment=True)
 
 
 @bluePrint.route('/admin/reports', methods=['GET', 'POST'])
 @login_required
 def reports_edit():
-    if checkGroup() is False:
+    if (isAdmin() or isTecher()) is False:
         return render_template('errors/500.html')
     if request.method == 'POST':
         data = request.get_json()
@@ -186,7 +193,7 @@ def reports_edit():
 @bluePrint.route('/admin/groups_edit', methods=['GET', 'POST'])
 @login_required
 def groups_edit():
-    if checkGroup() is False:
+    if isAdmin() is False:
         return render_template('errors/500.html')
     if request.method == 'POST':
         data = request.get_json()
@@ -239,20 +246,45 @@ def groups_edit():
 def users():
     # if current_user.username != 'ucmc2020ssRoot':
 
-    if checkGroup() is False:
+    if isAdmin() is False:
         return render_template('errors/500.html')
     if request.method == 'POST':
         data = request.get_json()
-        for userName in data['usersDelete']:
-            User.query.filter_by(username=userName).delete(synchronize_session=False)
-            usr_folder = 'volume/userdata/' + userName
-            if os.path.exists(usr_folder):
-                rmtree(usr_folder)
+
+        if ('usersDelete' in data.keys()):
+            for userName in data['usersDelete']:
+                usr = User.query.filter_by(username=userName).first()
+                User.query.filter_by(username=userName).delete(synchronize_session=False)
+                Report.query.filter_by(user_id=usr.id).delete(synchronize_session=False)
+                Group_user.query.filter_by(userid=usr.id).delete(synchronize_session=False)
+                usr_folder = 'volume/userdata/' + userName
+                if os.path.exists(usr_folder):
+                    rmtree(usr_folder)
+
+        if ('usersNewPassWord' in data.keys()):
+            usr_list = open("volume/User_list.txt", "w")
+            arusr = {}
+            for userName in data['usersNewPassWord']:
+                usr = User.query.filter_by(username=userName).first()
+                txt_pass = ''.join(random.choices(string.ascii_letters + string.digits, k=12))
+                usr.set_password(txt_pass)
+                usr_list.write(userName + ' : ' + txt_pass + '\n')
+                arusr[userName] = txt_pass
+            usr_list.close()
+
         dataBase.session.commit()
         return json.dumps({'status': 'OK'})
     # выбираем пользователей по дате последней авторизации (по убыванию)
     arUsers = User.query.order_by(desc(User.last_seen))
     return render_template('admin/users.html', title='Пользователи', arUsers=arUsers)
+
+
+@bluePrint.route('/admin/users/download')
+@login_required
+def download_var():
+    if isAdmin() is False:
+        return render_template('errors/500.html')
+    return send_from_directory(directory='/home/flask_skipod/volume', filename='User_list.txt', as_attachment=True)
 
 
 # переадресация на страницу регистрации новых пользователей
@@ -261,19 +293,18 @@ def users():
 def admin_forward():
     # if current_user.username != 'ucmc2020ssRoot':
     #     return render_template('errors/500.html')
-    if checkGroup() is False:
+    if (isAdmin() or isTecher()) is False:
         return render_template('errors/500.html')
 
     form = [RegisterUsers(), VarsCreation(), ButtonForm]
-    return render_template('admin/register.html', title='Регистрация', form=form,
-                           arUsers=[], arUsersLen=0, preview=0)
+    return render_template('admin/welcome.html', title='Панель администратора')
 
 
 # страница регистрации новых пользователей
 @bluePrint.route('/admin/register', methods=['GET', 'POST'])
 @login_required
 def admin():
-    if checkGroup() is False:
+    if isAdmin() is False:
         return render_template('errors/500.html')
     form = RegisterUsers()
     var_form = VarsCreation()
@@ -319,7 +350,6 @@ def admin():
             return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button],
                                    arUsers=[], arUsersLen=0, preview=False)
 
-        #TODO выдача пользователям варианта => надо поменять таблицы
         if form.submit.data:
             arUsers = []
             new_user_count = int(form.userNumber.data)
@@ -333,23 +363,21 @@ def admin():
                 var_num = 0
 
             for i in range(0, new_user_count):
-                usr_name = mask + format(i + current_users_count, '03d')
+                usr_name = mask + format(i + current_users_count - old_i, '03d')
                 # проверка на то, свободно ли нынешнее имя
                 if User.query.filter_by(username=usr_name).first() is not None:
                     current_users_count = find_free_num(mask)
-                    usr_name = mask + format(current_users_count - old_i, '03d')
+                    usr_name = mask + format(current_users_count, '03d')
                     old_i = i
                 txt_pass_count = 12
-                usr_list = open("volume/User_list.txt", "a")
                 txt_pass = ''.join(random.choices(string.ascii_letters + string.digits, k=txt_pass_count))
-                usr_list.write(usr_name + " : " + txt_pass + "\n")
                 # It works correctly but further investigation on what's going on required.
                 # добавление пользователя в бд
                 new_user = User(username=usr_name, local_folder=usr_name,
                                 var_num=i % var_num, var_file='program_' + str(i % var_num) + '.c')
                 new_user.set_password(txt_pass)
                 dataBase.session.add(new_user)
-                # create folders for new usersauto
+                # create folders for new users
                 usr_folder = 'volume/userdata/' + usr_name
                 if not os.path.exists(usr_folder):
                     copytree('new_user_folder', usr_folder)

@@ -8,6 +8,7 @@
     position: absolute;
     top: 0;
     right: 150px;
+    display: grid;
 }
 
 .edit-block #select_by_mask:hover {
@@ -15,14 +16,31 @@
 }
 
 .edit-block #select_by_mask {
-    border: 1px solid #adadad;
+    border: 1px solid #000000;
     color: #333;
     cursor: pointer;
-    width: 189px;
+    width: 200px;
     margin-top: 5px;
     border-radius: 10px;
     text-align: center;
     padding: 0px 7px;
+}
+
+.edit-block #reset_password:hover {
+    background-color: #90CA91;
+}
+
+.edit-block #reset_password {
+    border: 1px solid #000000;
+    color: #333;
+    cursor: pointer;
+    width: 200px;
+    margin-top: 5px;
+    border-radius: 10px;
+    text-align: center;
+    padding: 0px 7px;
+    background: #4cc73d;
+    margin-bottom: 5px;
 }
 
 .table_row.table-header span.last-seen p {
@@ -38,7 +56,7 @@
 .edit-block label {
     position: absolute;
     left: 7px;
-    top: 50px;
+    top: 103px;
     color: #c7c2c2;
 }
 
@@ -48,7 +66,7 @@
 
 .edit-block #delete_users {
     background: #F41;
-    width: 189px;
+    width: 200px;
     text-align: center;
     border: 1px solid #000;
     border-radius: 10px;

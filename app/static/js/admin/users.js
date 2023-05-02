@@ -44,4 +44,27 @@ $(document).ready(function () {
             }
         });
     });
+    $('.edit-block #reset_password').on('click', function () {
+        let usersNewPassWord = {'usersNewPassWord': []};
+        $('.table_row .select-input.content input.checked').each(function () {
+            let userName = $(this).parents('.table_row').children('.user-name').text();
+            if (userName != 'ucmc2020ssRoot')
+                usersNewPassWord.usersNewPassWord.push(userName);
+        });
+        // console.log(JSON.stringify(usersDelete.data));
+        $.ajax({
+            method: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/admin/users",
+            data: JSON.stringify(usersNewPassWord),
+            dataType: "json",
+            success: (data) => {
+                // console.log('isChat response: ' + data)
+                window.location.replace('/admin/users/download');
+            },
+            error: (data) => {
+                console.log('request error')
+            }
+        });
+    });
 });
