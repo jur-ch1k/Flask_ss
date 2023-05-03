@@ -354,7 +354,7 @@ def admin():
                 user.var_num = i % var_num
                 user.var_file = 'program_' + str(i % var_num) + '.c'
             dataBase.session.commit()
-            return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button],
+            return render_template('admin/generation_success.html', title='Регистрация', form=[form, var_form, button],
                                    arUsers=[], arUsersLen=0, preview=False)
 
         if form.submit.data:
@@ -395,11 +395,11 @@ def admin():
                                    arUsers=arUsers, arUsersLen=len(arUsers), preview=False)
 
         # --------------debug settings--------------
-        if var_form.log_download.data:
-            return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
-        if var_form.console_button.data:
-            os.system(var_form.console.data + "> a.txt")
-            return send_from_directory('/home/flask_skipod', 'a.txt')
+        # if var_form.log_download.data:
+        #     return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
+        # if var_form.console_button.data:
+        #     os.system(var_form.console.data + "> a.txt")
+        #     return send_from_directory('/home/flask_skipod', 'a.txt')
 
         # DB ANNIHILATOR 3000
 

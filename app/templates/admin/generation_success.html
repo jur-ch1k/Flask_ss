@@ -1,0 +1,16 @@
+{#{% extends "base.html" %}#}
+{% extends "admin_base.html" %}
+
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block head %}
+    {{ super() }}
+<!--    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/admin/register.css') }}">-->
+{% endblock %}
+
+
+{% block app_content %}
+    {% block leftNavBar %}
+    {% endblock %}
+    <h1>Генерация вариантов завершена успешно.</h1>
+    <p>Для продолжения работы выберете требуемый пункт в меню слева.</p>
+{% endblock %}
