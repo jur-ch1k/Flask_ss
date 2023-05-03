@@ -331,12 +331,12 @@ def admin():
                     json.dump(new_params, f)
             params = new_params
             bounds = [
-                ("p1", [int(s) for s in params['p1'].split(' ')]),
-                ("p2", [int(s) for s in params['p2'].split(' ')]),
-                ("p3", [int(s) for s in params['p3'].split(' ')]),
-                ("p4", [int(s) for s in params['p4'].split(' ')]),
-                ("p5", [int(s) for s in params['p5'].split(' ')]),
-                ("p6", [int(s) for s in params['p6'].split(' ')]),
+                ("p1", [int(s) for s in params['p1'].rstrip().lstrip().split()]),
+                ("p2", [int(s) for s in params['p2'].rstrip().lstrip().split()]),
+                ("p3", [int(s) for s in params['p3'].rstrip().lstrip().split()]),
+                ("p4", [int(s) for s in params['p4'].rstrip().lstrip().split()]),
+                ("p5", [int(s) for s in params['p5'].rstrip().lstrip().split()]),
+                ("p6", [int(s) for s in params['p6'].rstrip().lstrip().split()]),
             ]
 
         if var_form.preview.data:
@@ -345,6 +345,15 @@ def admin():
                                    preview=generate_vars(params['program'], bounds, preview=True))
         if var_form.create.data:
             generate_vars(params['program'], bounds)
+            users = User.query.all()
+            try:
+                var_num = len(os.listdir('volume/vars'))
+            except FileNotFoundError:
+                var_num = 0
+            for i, user in enumerate(users):
+                user.var_num = i % var_num
+                user.var_file = 'program_' + str(i % var_num) + '.c'
+            dataBase.session.commit()
             return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button],
                                    arUsers=[], arUsersLen=0, preview=False)
 
