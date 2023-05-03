@@ -47,7 +47,8 @@ $(document).ready(function () {
             },
             error: (data) => {
                 console.log('request error')
-            }
+            },
+            timeout: 300000
         });
     });
     $('.edit-block #reset_password').on('click', function () {
@@ -70,7 +71,8 @@ $(document).ready(function () {
             },
             error: (data) => {
                 console.log('request error')
-            }
+            },
+            timeout: 300000
         });
     });
 });
