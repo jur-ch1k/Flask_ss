@@ -26,6 +26,21 @@
     padding: 0px 7px;
 }
 
+.edit-block #unselect:hover {
+    background-color: #e6e6e6;
+}
+
+.edit-block #unselect {
+    border: 1px solid #000000;
+    color: #333;
+    cursor: pointer;
+    width: 200px;
+    margin-top: 5px;
+    border-radius: 10px;
+    text-align: center;
+    padding: 0px 7px;
+}
+
 .edit-block #reset_password:hover {
     background-color: #90CA91;
 }

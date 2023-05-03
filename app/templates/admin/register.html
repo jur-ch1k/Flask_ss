@@ -19,14 +19,25 @@
                 <div class="panel-heading" role="tab">
                     <h4 class="panel-title">
                         <!-- Содержимое раскрыто: aria-expanded="true", нет класса class="collapsed" -->
+                        {% if preview %}
+                        <a class="collapsed" role="button" data-toggle="collapse"
+                           data-parent="#accordion" href="#collapse-one" aria-expanded="false">
+                        Регистрация пользователей
+                        </a>
+                        {% else %}
                         <a role="button" data-toggle="collapse"
                            data-parent="#accordion" href="#collapse-one" aria-expanded="true">
                         Регистрация пользователей
                         </a>
+                        {% endif %}
                     </h4>
                 </div>
                 <!-- Содержимое раскрыто: aria-expanded="true", есть класс class="in" -->
+                {% if preview %}
+                <div id="collapse-one" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+                {% else %}
                 <div id="collapse-one" class="panel-collapse collapse in" role="tabpanel" aria-expanded="true">
+                {% endif %}
                     <div class="panel-body">
                         <div class="col-md-4">
                             {{ wtf.quick_form(form[0]) }}
@@ -38,15 +49,26 @@
                 <div class="panel-heading" role="tab">
                     <h4 class="panel-title">
                         <!-- Содержимое скрыто: aria-expanded="false", есть класс class="collapsed" -->
+                        {% if preview %}
+                        <a class="" role="button" data-toggle="collapse"
+                           data-parent="#accordion" href="#collapse-two" aria-expanded="true">
+                        Генерация вариантов
+                        </a>
+                        {% else %}
                         <a class="collapsed" role="button" data-toggle="collapse"
                            data-parent="#accordion" href="#collapse-two" aria-expanded="false">
                         Генерация вариантов
                         </a>
+                        {% endif %}
                     </h4>
                 </div>
                 <!-- Содержимое скрыто:  aria-expanded="false", нет класса class="in" -->
 <!--                TODO если выбран предпросмотр, то открыто именно эта штука-->
+                {% if preview %}
+                <div id="collapse-two" class="panel-collapse collapse in" role="tabpanel" aria-expanded="true">
+                {% else %}
                 <div id="collapse-two" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+                {% endif %}
                     <div class="panel-body">
                         <div class="col-md-4">
                             {{ wtf.quick_form(form[1]) }}

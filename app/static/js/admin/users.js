@@ -21,6 +21,12 @@ $(document).ready(function () {
             }
        });
     });
+    $('#unselect').on('click',function (){
+       $('.users-table .table_row').each(function (){
+            $('.select-input input', this).removeClass('checked');
+            $('.select-input input', this).prop('checked',false);
+       });
+    });
     $('.edit-block #delete_users').on('click', function () {
         let usersDelete = {'usersDelete': []};
         $('.table_row .select-input.content input.checked').each(function () {

@@ -40,6 +40,9 @@ def create_app(config_class=Config):
     from app.admin import bluePrint as admin_BP
     app_flask.register_blueprint(admin_BP)
 
+    from app.teacher import bluePrint as teacher_BP
+    app_flask.register_blueprint(teacher_BP)
+
     # Настройка регистратора электронной почты
     if not app_flask.debug:
         if app_flask.config['MAIL_SERVER']:

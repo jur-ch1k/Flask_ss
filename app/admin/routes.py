@@ -1,5 +1,3 @@
-import datetime
-
 from app.admin import bluePrint
 from app.admin.forms import RegisterForm, RegisterUsers, VarsCreation, ButtonForm
 from app.models import User, Group, Group_user, Report
@@ -30,7 +28,7 @@ def isAdmin():
     else:
         return True
 
-def isTecher():
+def isTeacher():
     teacherId = Group.query.filter(Group.groupname == 'teacher').first()
     user = Group_user.query.select_from(User).join(Group_user, User.id == Group_user.userid).filter(
         User.username == current_user.username).filter(Group_user.groupid == teacherId.id).first()
@@ -137,7 +135,7 @@ def generate_vars(program, bounds, output_dir='volume/vars', preview=False):
 @bluePrint.route('/admin/reports/<path:filename>', methods=['GET', 'POST'])
 @login_required
 def download(filename):
-    if (isAdmin() or isTecher()) is False:
+    if (isAdmin() or isTeacher()) is False:
         return render_template('errors/500.html')
     data = request.args.get('user')
     cur_abs_path = os.path.abspath(os.path.curdir)
@@ -150,7 +148,7 @@ def download(filename):
 @bluePrint.route('/admin/reports', methods=['GET', 'POST'])
 @login_required
 def reports_edit():
-    if (isAdmin() or isTecher()) is False:
+    if isAdmin() is False:
         return render_template('errors/500.html')
     if request.method == 'POST':
         data = request.get_json()
@@ -293,7 +291,7 @@ def download_var():
 def admin_forward():
     # if current_user.username != 'ucmc2020ssRoot':
     #     return render_template('errors/500.html')
-    if (isAdmin() or isTecher()) is False:
+    if isAdmin() is False:
         return render_template('errors/500.html')
 
     form = [RegisterUsers(), VarsCreation(), ButtonForm]
