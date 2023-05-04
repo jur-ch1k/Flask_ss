@@ -423,9 +423,10 @@ def generate_vars_page():
 
         if var_form.preview.data:
             return render_template('admin/variants_generation.html', title='Создание вариантов', form=var_form,
-                                   arUsers=[], arUsersLen=0,
                                    preview=generate_vars(params['program'], bounds, preview=True))
         if var_form.create.data:
+            if (var_form.var_folder.data in os.listdir('volume/vars')):
+                return render_template('admin/var_exists.html')
             generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_form.var_folder.data)
             users = User.query.all()
             if var_form.give_var.data:
