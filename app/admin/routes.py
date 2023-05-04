@@ -304,62 +304,12 @@ def admin():
     if isAdmin() is False:
         return render_template('errors/500.html')
     form = RegisterUsers()
-    var_form = VarsCreation()
     dirlist = os.listdir('volume/vars')
     dirlist.remove('not_a_task.txt')
     form.var_folder.choices = [(val, val) for val in (sorted(dirlist))]
 
     # Отправили заполненную форму
-    if form.validate_on_submit() and var_form.validate_on_submit():
-        params = {}
-        bounds = []
-
-        if var_form.preview.data or var_form.create.data:
-            new_params = {}
-            old_params = {}
-            with open('volume/vars.json') as f:
-                old_params = json.load(f)
-            new_params = {"program": var_form.program.data.replace('\r', ''),
-                          "p1": var_form.p1.data,
-                          "p2": var_form.p2.data,
-                          "p3": var_form.p3.data,
-                          "p4": var_form.p4.data,
-                          "p5": var_form.p5.data,
-                          "p6": var_form.p6.data
-                          }
-            if old_params != new_params:
-                with open('volume/vars.json', 'w') as f:
-                    json.dump(new_params, f)
-            params = new_params
-            bounds = [
-                ("p1", [int(s) for s in params['p1'].rstrip().lstrip().split()]),
-                ("p2", [int(s) for s in params['p2'].rstrip().lstrip().split()]),
-                ("p3", [int(s) for s in params['p3'].rstrip().lstrip().split()]),
-                ("p4", [int(s) for s in params['p4'].rstrip().lstrip().split()]),
-                ("p5", [int(s) for s in params['p5'].rstrip().lstrip().split()]),
-                ("p6", [int(s) for s in params['p6'].rstrip().lstrip().split()]),
-            ]
-
-        if var_form.preview.data:
-            return render_template('admin/register.html', title='Регистрация', form=[form, var_form],
-                                   arUsers=[], arUsersLen=0,
-                                   preview=generate_vars(params['program'], bounds, preview=True))
-        if var_form.create.data:
-            generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_form.var_folder.data)
-            users = User.query.all()
-            if var_form.give_var.data:
-                try:
-                    var_num = len(os.listdir('volume/vars/' + var_form.var_folder.data))
-                except FileNotFoundError:
-                    var_num = 0
-                for i, user in enumerate(users):
-                    if user.var_num != -1:
-                        user.var_num = i % var_num
-                        user.var_file = var_form.var_folder.data + '/program_' + str(i % var_num) + '.c'
-                dataBase.session.commit()
-            return render_template('admin/generation_success.html', title='Регистрация', form=[form, var_form],
-                                   arUsers=[], arUsersLen=0, preview=False)
-
+    if form.validate_on_submit():
         if form.submit.data:
             arUsers = []
             new_user_count = int(form.userNumber.data)
@@ -399,8 +349,8 @@ def admin():
                 arUsers.append({'login': usr_name, 'password': txt_pass})
 
             dataBase.session.commit()
-            return render_template('admin/register.html', title='Регистрация', form=[form, var_form],
-                                   arUsers=arUsers, arUsersLen=len(arUsers), preview=False)
+            return render_template('admin/register.html', title='Регистрация', form=form,
+                                   arUsers=arUsers, arUsersLen=len(arUsers))
 
         # --------------debug settings--------------
         # if var_form.log_download.data:
@@ -427,5 +377,69 @@ def admin():
         #     new_user.set_password('wi5RepSi')
         #     dataBase.session.add(new_user)
         #     dataBase.session.commit()
-    return render_template('admin/register.html', title='Регистрация', form=[form, var_form],
+    return render_template('admin/register.html', title='Регистрация', form=form,
+                           arUsers=[], arUsersLen=0)
+
+
+@bluePrint.route('/admin/variants_generation', methods=['GET', 'POST'])
+@login_required
+def generate_vars_page():
+    if isAdmin() is False:
+        return render_template('errors/500.html')
+    var_form = VarsCreation()
+    dirlist = os.listdir('volume/vars')
+    dirlist.remove('not_a_task.txt')
+
+    # Отправили заполненную форму
+    if var_form.validate_on_submit():
+        params = {}
+        bounds = []
+
+        if var_form.preview.data or var_form.create.data:
+            new_params = {}
+            old_params = {}
+            with open('volume/vars.json') as f:
+                old_params = json.load(f)
+            new_params = {"program": var_form.program.data.replace('\r', ''),
+                          "p1": var_form.p1.data,
+                          "p2": var_form.p2.data,
+                          "p3": var_form.p3.data,
+                          "p4": var_form.p4.data,
+                          "p5": var_form.p5.data,
+                          "p6": var_form.p6.data
+                          }
+            if old_params != new_params:
+                with open('volume/vars.json', 'w') as f:
+                    json.dump(new_params, f)
+            params = new_params
+            bounds = [
+                ("p1", [int(s) for s in params['p1'].rstrip().lstrip().split()]),
+                ("p2", [int(s) for s in params['p2'].rstrip().lstrip().split()]),
+                ("p3", [int(s) for s in params['p3'].rstrip().lstrip().split()]),
+                ("p4", [int(s) for s in params['p4'].rstrip().lstrip().split()]),
+                ("p5", [int(s) for s in params['p5'].rstrip().lstrip().split()]),
+                ("p6", [int(s) for s in params['p6'].rstrip().lstrip().split()]),
+            ]
+
+        if var_form.preview.data:
+            return render_template('admin/variants_generation.html', title='Создание вариантов', form=var_form,
+                                   arUsers=[], arUsersLen=0,
+                                   preview=generate_vars(params['program'], bounds, preview=True))
+        if var_form.create.data:
+            generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_form.var_folder.data)
+            users = User.query.all()
+            if var_form.give_var.data:
+                try:
+                    var_num = len(os.listdir('volume/vars/' + var_form.var_folder.data))
+                except FileNotFoundError:
+                    var_num = 0
+                for i, user in enumerate(users):
+                    if user.var_num != -1:
+                        user.var_num = i % var_num
+                        user.var_file = var_form.var_folder.data + '/program_' + str(i % var_num) + '.c'
+                dataBase.session.commit()
+            return render_template('admin/generation_success.html', title='Создание вариантов', form=var_form,
+                                   arUsers=[], arUsersLen=0, preview=False)
+
+    return render_template('admin/variants_generation.html', title='Создание вариантов', form=var_form,
                            arUsers=[], arUsersLen=0, preview=False)

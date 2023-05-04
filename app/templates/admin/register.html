@@ -11,79 +11,10 @@
 {% block app_content %}
     {% block leftNavBar %}
     {% endblock %}
-    <h1>Register</h1>
-    <!-- Теперь всё сделано с помощью bootstrap -->
     <div class="row">
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab">
-                    <h4 class="panel-title">
-                        <!-- Содержимое раскрыто: aria-expanded="true", нет класса class="collapsed" -->
-                        {% if preview %}
-                        <a class="collapsed" role="button" data-toggle="collapse"
-                           data-parent="#accordion" href="#collapse-one" aria-expanded="false">
-                        Регистрация пользователей
-                        </a>
-                        {% else %}
-                        <a role="button" data-toggle="collapse"
-                           data-parent="#accordion" href="#collapse-one" aria-expanded="true">
-                        Регистрация пользователей
-                        </a>
-                        {% endif %}
-                    </h4>
-                </div>
-                <!-- Содержимое раскрыто: aria-expanded="true", есть класс class="in" -->
-                {% if preview %}
-                <div id="collapse-one" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
-                {% else %}
-                <div id="collapse-one" class="panel-collapse collapse in" role="tabpanel" aria-expanded="true">
-                {% endif %}
-                    <div class="panel-body">
-                        <div class="col-md-4">
-                            {{ wtf.quick_form(form[0]) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab">
-                    <h4 class="panel-title">
-                        <!-- Содержимое скрыто: aria-expanded="false", есть класс class="collapsed" -->
-                        {% if preview %}
-                        <a class="" role="button" data-toggle="collapse"
-                           data-parent="#accordion" href="#collapse-two" aria-expanded="true">
-                        Генерация вариантов
-                        </a>
-                        {% else %}
-                        <a class="collapsed" role="button" data-toggle="collapse"
-                           data-parent="#accordion" href="#collapse-two" aria-expanded="false">
-                        Генерация вариантов
-                        </a>
-                        {% endif %}
-                    </h4>
-                </div>
-                <!-- Содержимое скрыто:  aria-expanded="false", нет класса class="in" -->
-<!--                TODO если выбран предпросмотр, то открыто именно эта штука-->
-                {% if preview %}
-                <div id="collapse-two" class="panel-collapse collapse in" role="tabpanel" aria-expanded="true">
-                {% else %}
-                <div id="collapse-two" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
-                {% endif %}
-                    <div class="panel-body">
-                        <div class="col-md-4">
-                            {{ wtf.quick_form(form[1]) }}
-                        </div>
-                        {% if preview %}
-                        <div class="col-md-4">
-                            <label id="preview_label" for="preview">Предпросмотр</label>
-                            <textarea readonly id="preview" class="form-control" name="preview">{{ preview }}</textarea>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
         </div>
-        {#        {% if arUsersLen %}#}
         <div class="users_new">
             <div class="table_row"><span><p>Login</p></span><span><p>Password</p></span></div>
             {% for user in arUsers %}
@@ -91,12 +22,4 @@
             {% endfor %}
         </div>
     </div>
-<!--{#        {% if arUsersLen %}#}-->
-<!--        <div class="users_new">-->
-<!--            <div class="table_row"><span><p>Login</p></span><span><p>Password</p></span></div>-->
-<!--            {% for user in arUsers %}-->
-<!--                <div class="table_row"><span><p>{{ user.login }}</p></span><span><p>{{ user.password }}</p></span></div>-->
-<!--            {% endfor %}-->
-<!--        </div>-->
-<!--    {#        {% endif %}#}-->
 {% endblock %}

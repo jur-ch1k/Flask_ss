@@ -1,0 +1,26 @@
+{#{% extends "base.html" %}#}
+{% extends "admin_base.html" %}
+
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/admin/register.css') }}">
+{% endblock %}
+
+
+{% block app_content %}
+    {% block leftNavBar %}
+    {% endblock %}
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+        {% if preview %}
+        <div class="col-md-4">
+            <label id="preview_label" for="preview">Предпросмотр</label>
+            <textarea readonly id="preview" class="form-control" name="preview">{{ preview }}</textarea>
+        </div>
+        {% endif %}
+    </div>
+    {#        {% endif %}#}
+{% endblock %}
