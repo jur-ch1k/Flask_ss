@@ -368,7 +368,7 @@ def admin():
             current_users_count = find_free_num(mask)
             old_i = 0
             try:
-                var_num = len(os.listdir('volume/vars'))
+                var_num = len(os.listdir('volume/vars/' + form.var_folder.data))
             except FileNotFoundError:
                 var_num = 0
 
