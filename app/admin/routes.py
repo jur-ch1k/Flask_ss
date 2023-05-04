@@ -1,5 +1,5 @@
 from app.admin import bluePrint
-from app.admin.forms import RegisterForm, RegisterUsers, VarsCreation, ButtonForm
+from app.admin.forms import RegisterUsers, VarsCreation
 from app.models import User, Group, Group_user, Report
 from app import dataBase
 from flask import render_template, flash, redirect, url_for, request, url_for, send_from_directory
@@ -183,7 +183,7 @@ def reports_edit():
             'data_creation': str(report.date_creation).partition('.')[0],
             'mark': report.mark,
             'comment': report.comment,
-            'var_file': report.var_file
+            'var_num': report.var_num
         })
     return render_template('admin/reports.html', title='Отчеты', reports=arReports)
 
@@ -294,7 +294,6 @@ def admin_forward():
     if isAdmin() is False:
         return render_template('errors/500.html')
 
-    form = [RegisterUsers(), VarsCreation(), ButtonForm]
     return render_template('admin/welcome.html', title='Панель администратора')
 
 
@@ -306,10 +305,12 @@ def admin():
         return render_template('errors/500.html')
     form = RegisterUsers()
     var_form = VarsCreation()
-    button = ButtonForm()
+    dirlist = os.listdir('volume/vars')
+    dirlist.remove('not_a_task.txt')
+    form.var_folder.choices = [(val, val) for val in (sorted(dirlist))]
 
     # Отправили заполненную форму
-    if form.validate_on_submit() and var_form.validate_on_submit() and button.validate_on_submit():
+    if form.validate_on_submit() and var_form.validate_on_submit():
         params = {}
         bounds = []
 
@@ -340,21 +341,23 @@ def admin():
             ]
 
         if var_form.preview.data:
-            return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button],
+            return render_template('admin/register.html', title='Регистрация', form=[form, var_form],
                                    arUsers=[], arUsersLen=0,
                                    preview=generate_vars(params['program'], bounds, preview=True))
         if var_form.create.data:
-            generate_vars(params['program'], bounds)
+            generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_form.var_folder.data)
             users = User.query.all()
-            try:
-                var_num = len(os.listdir('volume/vars'))
-            except FileNotFoundError:
-                var_num = 0
-            for i, user in enumerate(users):
-                user.var_num = i % var_num
-                user.var_file = 'program_' + str(i % var_num) + '.c'
-            dataBase.session.commit()
-            return render_template('admin/generation_success.html', title='Регистрация', form=[form, var_form, button],
+            if var_form.give_var.data:
+                try:
+                    var_num = len(os.listdir('volume/vars/' + var_form.var_folder.data))
+                except FileNotFoundError:
+                    var_num = 0
+                for i, user in enumerate(users):
+                    if user.var_num != -1:
+                        user.var_num = i % var_num
+                        user.var_file = var_form.var_folder.data + '/program_' + str(i % var_num) + '.c'
+                dataBase.session.commit()
+            return render_template('admin/generation_success.html', title='Регистрация', form=[form, var_form],
                                    arUsers=[], arUsersLen=0, preview=False)
 
         if form.submit.data:
@@ -380,8 +383,13 @@ def admin():
                 txt_pass = ''.join(random.choices(string.ascii_letters + string.digits, k=txt_pass_count))
                 # It works correctly but further investigation on what's going on required.
                 # добавление пользователя в бд
-                new_user = User(username=usr_name, local_folder=usr_name,
-                                var_num=i % var_num, var_file='program_' + str(i % var_num) + '.c')
+                if form.give_var.data:
+                    new_user = User(username=usr_name, local_folder=usr_name,
+                                    var_num=i % var_num,
+                                    var_file=form.var_folder.data + '/program_' + str(i % var_num) + '.c')
+                else:
+                    new_user = User(username=usr_name, local_folder=usr_name,
+                                    var_num= -1, var_file='not_a_task.txt')
                 new_user.set_password(txt_pass)
                 dataBase.session.add(new_user)
                 # create folders for new users
@@ -391,7 +399,7 @@ def admin():
                 arUsers.append({'login': usr_name, 'password': txt_pass})
 
             dataBase.session.commit()
-            return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button],
+            return render_template('admin/register.html', title='Регистрация', form=[form, var_form],
                                    arUsers=arUsers, arUsersLen=len(arUsers), preview=False)
 
         # --------------debug settings--------------
@@ -419,5 +427,5 @@ def admin():
         #     new_user.set_password('wi5RepSi')
         #     dataBase.session.add(new_user)
         #     dataBase.session.commit()
-    return render_template('admin/register.html', title='Регистрация', form=[form, var_form, button],
+    return render_template('admin/register.html', title='Регистрация', form=[form, var_form],
                            arUsers=[], arUsersLen=0, preview=False)

@@ -22,6 +22,11 @@
     border: 1px solid #e7e7e7;
 }
 
+.row span.report-comment {
+    display: inline-block;
+    width: 27%;
+}
+
 .row span {
     width: 25%;
     display: inline-flex;
@@ -40,7 +45,7 @@
     height: 20px;
 }
 .table-content span.report-comment input {
-    width: 144%;
+    width: 100%;
 }
 .row span.data-creation {
     width: 10%;
@@ -75,12 +80,13 @@
 }
 
 .table-header .report-comment p {
-    padding-left: 40%;
+    /*padding-left: 40%;*/
 }
 
-.row span.report-comment {
-    width: 27%;
-}
+/*.row span.report-comment {*/
+/*    display: inline-block;*/
+/*    width: 27%;*/
+/*}*/
 
 .row span.report-user {
     width: 12%;

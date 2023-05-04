@@ -36,7 +36,7 @@
                 <img class="img-down" src="{{ url_for('static',filename='images/wing.png') }}">
             </span>
             <span class="report-comment"><p>Комментарий</p></span>
-            <span class="report-var_num"><p>Вариант</p></span>
+            <span class="report-var_num"><p>Задание</p></span>
         </div>
         {% for report in reports %}
             <div class="table_row table-content">
@@ -47,9 +47,9 @@
                    data="{{ report['report_name'] }}">{{ report['report_name'] }}</a>
                 </span>
                 <span class="data-creation"><p>{{ report['data_creation'] }}</p></span>
-                <span class="report-mark"><p><input type="text" value="{{ report['mark'] }}"></p></span>
+                <span class="report-mark"><p style="display: inline-flex;"><input type="text" value="{{ report['mark'] }}"></p></span>
                 <span class="report-comment"><p><input type="text" value="{{ report['comment'] }}"></p></span>
-                <span class="report-var_num"><p><a href="{{ url_for('main.download_var', username=report['user']) }}"> {{report['var_file']}}</a></p></span>
+                <span class="report-var_num"><p><a href="{{ url_for('main.download_var', username=report['user']) }}"> Вариант №{{report['var_num']}}</a></p></span>
             </div>
         {% endfor %}
     </div>
