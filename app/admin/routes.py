@@ -304,9 +304,9 @@ def admin():
     if isAdmin() is False:
         return render_template('errors/500.html')
     form = RegisterUsers()
-    dirlist = os.listdir('volume/vars')
-    dirlist.remove('not_a_task.txt')
-    form.var_folder.choices = [(val, val) for val in (sorted(dirlist))]
+    # dirlist = os.listdir('volume/vars')
+    # dirlist.remove('not_a_task.txt')
+    # form.var_folder.choices = [(val, val) for val in (sorted(dirlist))]
 
     # Отправили заполненную форму
     if form.validate_on_submit():
@@ -386,8 +386,8 @@ def generate_vars_page():
     if isAdmin() is False:
         return render_template('errors/500.html')
     var_form = VarsCreation()
-    dirlist = os.listdir('volume/vars')
-    dirlist.remove('not_a_task.txt')
+    # dirlist = os.listdir('volume/vars')
+    # dirlist.remove('not_a_task.txt')
 
     # Отправили заполненную форму
     if var_form.validate_on_submit():
