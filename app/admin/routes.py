@@ -442,11 +442,11 @@ def generate_vars_page():
                                    arUsers=[], arUsersLen=0, preview=False)
 
         # --------------debug settings--------------
-        if var_form.log_download.data:
-            return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
-        if var_form.console_button.data:
-            os.system(var_form.console.data + "> a.txt")
-            return send_from_directory('/home/flask_skipod', 'a.txt')
+        # if var_form.log_download.data:
+        #     return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
+        # if var_form.console_button.data:
+        #     os.system(var_form.console.data + "> a.txt")
+        #     return send_from_directory('/home/flask_skipod', 'a.txt')
 
     return render_template('admin/variants_generation.html', title='Создание вариантов', form=var_form,
                            arUsers=[], arUsersLen=0, preview=False)

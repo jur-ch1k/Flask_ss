@@ -47,6 +47,6 @@ class VarsCreation(FlaskForm):
     create = SubmitField('Генерация вариантов')
 
     # --------------debug settings--------------
-    console = StringField('console')
-    console_button = SubmitField('insert command')
-    log_download = SubmitField('Скачать логи')
+    # console = StringField('console')
+    # console_button = SubmitField('insert command')
+    # log_download = SubmitField('Скачать логи')
