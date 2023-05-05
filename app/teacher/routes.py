@@ -46,7 +46,7 @@ def t_reports_edit():
             'data_creation': str(report.date_creation).partition('.')[0],
             'mark': report.mark,
             'comment': report.comment,
-            'var_file': report.var_file
+            'var_num': report.var_num
         })
     return render_template('teacher/reports.html', title='Отчеты', reports=arReports)
 

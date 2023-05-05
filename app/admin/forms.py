@@ -6,11 +6,11 @@ import json
 import os
 
 
-class RegisterForm(FlaskForm):
-    username = StringField('Username')
-    password = PasswordField('Password')
-    password_repeat = PasswordField('Repeat password')
-    submit = SubmitField('register')
+# class RegisterForm(FlaskForm):
+#     username = StringField('Username')
+#     password = PasswordField('Password')
+#     password_repeat = PasswordField('Repeat password')
+#     submit = SubmitField('register')
 
 
 class RegisterUsers(FlaskForm):
