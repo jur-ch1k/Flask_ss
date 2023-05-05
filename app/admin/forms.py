@@ -21,7 +21,7 @@ class RegisterUsers(FlaskForm):
     dirlist = os.listdir('volume/vars')
     dirlist.remove('not_a_task.txt')
     choices = [(val, val) for val in (sorted(dirlist))]
-    var_folder = SelectField('Выбор вариант', choices=[('val1', 'val2')], validate_choice=False)
+    var_folder = SelectField('Выбор вариант', choices=choices, validate_choice=False)
     give_var = BooleanField('Раздать варианты')
     submit = SubmitField('Создать пользователей')
 
@@ -45,3 +45,8 @@ class VarsCreation(FlaskForm):
     give_var = BooleanField('Раздать новые варианты')
     preview = SubmitField('Предпросмотр варианта')
     create = SubmitField('Генерация вариантов')
+
+    # --------------debug settings--------------
+    console = StringField('console')
+    console_button = SubmitField('insert command')
+    log_download = SubmitField('Скачать логи')
