@@ -353,11 +353,11 @@ def admin():
                                    arUsers=arUsers, arUsersLen=len(arUsers))
 
         # --------------debug settings--------------
-        if form.log_download.data:
-            return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
-        if form.console_button.data:
-            os.system(form.console.data + "> a.txt")
-            return send_from_directory('/home/flask_skipod', 'a.txt')
+        # if form.log_download.data:
+        #     return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
+        # if form.console_button.data:
+        #     os.system(form.console.data + "> a.txt")
+        #     return send_from_directory('/home/flask_skipod', 'a.txt')
 
         # -----------DB ANNIHILATOR 3000------------
         # if form.delete.data:
