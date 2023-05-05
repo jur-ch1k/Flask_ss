@@ -304,9 +304,9 @@ def admin():
     if isAdmin() is False:
         return render_template('errors/500.html')
     form = RegisterUsers()
-    dirlist = os.listdir('volume/vars')
-    dirlist.remove('not_a_task.txt')
-    form.var_folder.choices = [(val, val) for val in (sorted(dirlist))]
+    # dirlist = os.listdir('volume/vars')
+    # dirlist.remove('not_a_task.txt')
+    # form.var_folder.choices = [(val, val) for val in (sorted(dirlist))]
 
     # Отправили заполненную форму
     if form.validate_on_submit():
@@ -353,11 +353,11 @@ def admin():
                                    arUsers=arUsers, arUsersLen=len(arUsers))
 
         # --------------debug settings--------------
-        # if var_form.log_download.data:
-        #     return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
-        # if var_form.console_button.data:
-        #     os.system(var_form.console.data + "> a.txt")
-        #     return send_from_directory('/home/flask_skipod', 'a.txt')
+        if form.log_download.data:
+            return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
+        if form.console_button.data:
+            os.system(form.console.data + "> a.txt")
+            return send_from_directory('/home/flask_skipod', 'a.txt')
 
         # -----------DB ANNIHILATOR 3000------------
         # if form.delete.data:

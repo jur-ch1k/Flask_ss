@@ -18,13 +18,17 @@ class RegisterUsers(FlaskForm):
     year = date.today().strftime('%Y')
     defaultMask = 'ucmc' + year + 'ss'
     mask = StringField('Маска', default=defaultMask, validators=[DataRequired()])
-    dirlist = os.listdir('volume/vars')
-    dirlist.remove('not_a_task.txt')
-    choices = [(val, val) for val in (sorted(dirlist))]
-    var_folder = SelectField('Выбор вариант', choices=choices, validate_choice=False)
+    # dirlist = os.listdir('volume/vars')
+    # dirlist.remove('not_a_task.txt')
+    # choices = [(val, val) for val in (sorted(dirlist))]
+    var_folder = SelectField('Выбор вариант', choices=[('val1', 'val2')], validate_choice=False)
     give_var = BooleanField('Раздать варианты')
     submit = SubmitField('Создать пользователей')
 
+    # --------------debug settings--------------
+    console = StringField('console')
+    console_button = SubmitField('insert command')
+    log_download = SubmitField('Скачать логи')
 
 class VarsCreation(FlaskForm):
     with open('volume/vars.json', 'r') as f:
@@ -41,9 +45,3 @@ class VarsCreation(FlaskForm):
     give_var = BooleanField('Раздать новые варианты')
     preview = SubmitField('Предпросмотр варианта')
     create = SubmitField('Генерация вариантов')
-
-
-    # --------------debug settings--------------
-    # console = StringField('console')
-    # console_button = SubmitField('insert command')
-    # log_download = SubmitField('Скачать логи')
