@@ -22,7 +22,7 @@ class RegisterUsers(FlaskForm):
     dirlist.remove('not_a_task.txt')
     choices = [(val, val) for val in (sorted(dirlist))]
     var_folder = SelectField('Выбор вариант', choices=choices, validate_choice=False)
-    give_var = BooleanField('Раздать варианты')
+    give_var = BooleanField('Раздать варианты', default=True)
     submit = SubmitField('Создать пользователей')
 
     # --------------debug settings--------------
