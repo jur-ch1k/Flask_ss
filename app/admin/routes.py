@@ -364,23 +364,6 @@ def admin():
         #     os.system(form.console.data + "> a.txt")
         #     return send_from_directory('/home/flask_skipod', 'a.txt')
 
-        # -----------DB ANNIHILATOR 3000------------
-        # if form.delete.data:
-        #     users = User.query.all()
-        #     for user in users:
-        #         dataBase.session.delete(user)
-        #     group_user = Group_user.query.all()
-        #     for gu in group_user:
-        #         dataBase.session.delete(gu)
-        #     report = Report.query.all()
-        #     for r in report:
-        #         dataBase.session.delete(r)
-        #     dataBase.session.commit()
-        #
-        #     new_user = User(username='ucmc2020ssRoot', local_folder='ucmc2020ssRoot')
-        #     new_user.set_password('wi5RepSi')
-        #     dataBase.session.add(new_user)
-        #     dataBase.session.commit()
     return render_template('admin/register.html', title='Регистрация', form=form,
                            arUsers=[], arUsersLen=0)
 
