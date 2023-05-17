@@ -95,7 +95,8 @@ def upload_report():
             'report_name': report.report_name,
             'data_creation': str(report.date_creation).partition('.')[0],
             'mark': report.mark,
-            'comment': report.comment
+            'comment': report.comment,
+            'teacher_name': report.teacher_name
         })
     return render_template('reports.html', title='Мои отчеты', form=form, reports=arReports)
 

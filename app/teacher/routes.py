@@ -35,6 +35,10 @@ def t_reports_edit():
             userId = User.query.filter_by(username=data['user']).first().id
             report = Report.query.filter_by(user_id=userId, report_name=data['report']).first()
             report.comment = data['comment']
+        if data['method'] == 'edit_name':
+            userId = User.query.filter_by(username=data['user']).first().id
+            report = Report.query.filter_by(user_id=userId, report_name=data['report']).first()
+            report.teacher_name = data['teacher_name']
         dataBase.session.commit()
         return json.dumps({'status': 'OK'})
     reports_query = Report.query.order_by(Report.date_creation)
@@ -46,7 +50,8 @@ def t_reports_edit():
             'data_creation': str(report.date_creation).partition('.')[0],
             'mark': report.mark,
             'comment': report.comment,
-            'var_num': report.var_num
+            'var_num': report.var_num,
+            'teacher_name': report.teacher_name
         })
     return render_template('teacher/reports.html', title='Отчеты', reports=arReports)
 

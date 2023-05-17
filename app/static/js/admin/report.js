@@ -15,6 +15,10 @@ $(document).ready(function () {
         if ($('input', this).val() == 'None')
             $('input', this).val('');
     });
+    $('.table_row .teacher_name').each(function () {
+        if ($('input', this).val() == 'None')
+            $('input', this).val('');
+    });
     $('.table-header .select-input input').on('click', function () {
         let choice = $(this).prop('checked');
         $('.table-content .select-input.content input').each(function () {
@@ -117,6 +121,29 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
             url: "/admin/reports",
             data: JSON.stringify(reportEdit),
+            dataType: "json",
+            success: (data) => {
+                // console.log('isChat response: ' + data)
+                // window.location.replace(window.location.pathname);
+            },
+            error: (data) => {
+                console.log('request error')
+            }
+        });
+    });
+    $('.table-content span.teacher_name input').on('focusout', function () {
+        let element = $(this).parent().parent().parent();
+        let nameEdit = {'user': '', 'report': '', 'method': 'edit_name', 'teacher_name': ''};
+        nameEdit['teacher_name'] = $(this).val()
+        nameEdit['user'] = element.children('.report-user').text().trim();
+        nameEdit['report'] = element.children('.report-name').children('a').attr('data');
+        // console.log(JSON.stringify(usersDelete.data));
+        console.log(nameEdit)
+        $.ajax({
+            method: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/admin/reports",
+            data: JSON.stringify(nameEdit),
             dataType: "json",
             success: (data) => {
                 // console.log('isChat response: ' + data)

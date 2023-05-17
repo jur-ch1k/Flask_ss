@@ -17,14 +17,21 @@
     <h2>Ранние отчеты</h2>
     <div class="last-reports row">
 
-        <div class="table_row table-header"><span class="report-name"><p>Отчет</p></span><span
-                class="data-creation"><p>Дата создания</p></span><span class="report-mark"><p>Оценка</p></span><span
-                class="report-comment"><p>Комментарий</p></span></div>
+        <div class="table_row table-header">
+            <span class="report-name"><p>Отчет</p></span>
+            <span class="data-creation"><p>Дата создания</p></span>
+            <span class="report-mark"><p>Оценка</p></span>
+            <span class="report-comment"><p>Комментарий</p></span>
+            <span class="teacher_name"><p>Проверяющий</p></span>
+        </div>
         {% for report in reports %}
-            <div class="table_row table-content"><span class="report-name"><a href="/upload_report/{{ report['report_name'] }}">{{ report['report_name'] }}</a></span><span
-                    class="data-creation"><p>{{ report['data_creation'] }}</p></span><span
-                    class="report-mark"><p>{{ report['mark'] }}</p></span><span
-                    class="report-comment"><p>{{ report['comment'] }}</p></span></div>
+            <div class="table_row table-content">
+                <span class="report-name"><a href="/upload_report/{{ report['report_name'] }}">{{ report['report_name'] }}</a></span>
+                <span class="data-creation"><p>{{ report['data_creation'] }}</p></span>
+                <span class="report-mark"><p>{{ report['mark'] }}</p></span>
+                <span class="report-comment"><p>{{ report['comment'] }}</p></span>
+                <span class="teacher_name"><p>{{ report['teacher_name'] }}</p></span>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}

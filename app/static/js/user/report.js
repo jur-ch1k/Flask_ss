@@ -15,6 +15,10 @@ $(document).ready(function () {
         if ($('p', this).text() == 'None')
             $('p', this).text('');
     });
+    $('.table_row .teacher_name').each(function () {
+        if ($('p', this).text() == 'None')
+            $('p', this).text('');
+    });
     $('.table_row .report-name p').on('click', function () {
 
     });

@@ -172,6 +172,10 @@ def reports_edit():
             userId = User.query.filter_by(username=data['user']).first().id
             report = Report.query.filter_by(user_id=userId, report_name=data['report']).first()
             report.comment = data['comment']
+        if data['method'] == 'edit_name':
+            userId = User.query.filter_by(username=data['user']).first().id
+            report = Report.query.filter_by(user_id=userId, report_name=data['report']).first()
+            report.teacher_name = data['teacher_name']
         dataBase.session.commit()
         return json.dumps({'status': 'OK'})
     reports_query = Report.query.order_by(Report.date_creation)
@@ -183,7 +187,8 @@ def reports_edit():
             'data_creation': str(report.date_creation).partition('.')[0],
             'mark': report.mark,
             'comment': report.comment,
-            'var_num': report.var_num
+            'var_num': report.var_num,
+            'teacher_name': report.teacher_name
         })
     return render_template('admin/reports.html', title='Отчеты', reports=arReports)
 
@@ -424,8 +429,6 @@ def generate_vars_page():
             return render_template('admin/variants_generation.html', title='Создание вариантов', form=var_form,
                                    preview=generate_vars(params['program'], bounds, preview=True))
         if var_form.create.data:
-            if (var_form.var_folder.data in os.listdir('volume/vars')):
-                return render_template('admin/var_exists.html')
             generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_form.var_folder.data)
             users = User.query.all()
             if var_form.give_var.data:

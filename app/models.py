@@ -11,6 +11,7 @@ class Report(UserMixin, dataBase.Model):
     mark = dataBase.Column(dataBase.Integer)
     date_creation = dataBase.Column(dataBase.DateTime, default=datetime.utcnow())
     comment = dataBase.Column(dataBase.String(300))
+    teacher_name = dataBase.Column(dataBase.String(64), default='')
 
     var_num = dataBase.Column(dataBase.Integer)
     var_file = dataBase.Column(dataBase.String(128))

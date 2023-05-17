@@ -24,7 +24,12 @@
 
 .row span.report-comment {
     display: inline-block;
-    width: 27%;
+    width: 25%;
+}
+
+.row span.teacher_name {
+    display: inline-block;
+    width: 10%;
 }
 
 .row span {
@@ -38,15 +43,21 @@
     width: 8%;
 }
 
-.table-content span.report-mark input,.table-content span.report-comment input {
+.table-content span.report-mark input,.table-content span.report-comment input, .table-content span.teacher_name input {
     padding-left: 2%;
     width: 30%;
     border: 1px solid #e7e7e7;
     height: 20px;
 }
+
 .table-content span.report-comment input {
     width: 100%;
 }
+
+.table-content span.teacher_name input {
+    width: 100%;
+}
+
 .row span.data-creation {
     width: 10%;
 }
@@ -56,7 +67,7 @@
 }
 
 .row span.report-name {
-    width: 25%;
+    width: 22%;
 }
 
 .table-content span.report-name {

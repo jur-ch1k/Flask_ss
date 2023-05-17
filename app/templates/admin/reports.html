@@ -3,7 +3,6 @@
     {{ super() }}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/admin/report.css') }}">
     <script src="{{ url_for('static',filename='js/admin/report.js') }}"></script>
-
 {% endblock %}
 
 {% block app_content %}
@@ -37,6 +36,7 @@
             </span>
             <span class="report-comment"><p>Комментарий</p></span>
             <span class="report-var_num"><p>Задание</p></span>
+            <span class="teacher_name"><p>Проверил</p></span>
         </div>
         {% for report in reports %}
             <div class="table_row table-content">
@@ -50,6 +50,7 @@
                 <span class="report-mark"><p style="display: inline-flex;"><input type="text" value="{{ report['mark'] }}"></p></span>
                 <span class="report-comment"><p><input type="text" value="{{ report['comment'] }}"></p></span>
                 <span class="report-var_num"><p><a href="{{ url_for('main.download_var', username=report['user']) }}"> Вариант №{{report['var_num']}}</a></p></span>
+                <span class="teacher_name"><p><input type="text" value="{{ report['teacher_name'] }}"></p></span>
             </div>
         {% endfor %}
     </div>
