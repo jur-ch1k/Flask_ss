@@ -2,7 +2,7 @@ from app.admin import bluePrint
 from app.admin.forms import RegisterUsers, VarsCreation
 from app.models import User, Group, Group_user, Report
 from app import dataBase
-from flask import render_template, flash, redirect, url_for, request, url_for, send_from_directory
+from flask import render_template, flash, redirect, request, url_for, send_from_directory, Response, stream_with_context
 from flask_login import current_user, login_required
 from shutil import copytree, rmtree
 from sqlalchemy import desc
@@ -301,6 +301,52 @@ def admin_forward():
 
     return render_template('admin/welcome.html', title='Панель администратора')
 
+def stream_template(template_name, **context):
+    from app import create_app
+    app = create_app()
+    app.update_template_context(context)
+    t = app.jinja_env.get_template(template_name)
+    rv = t.stream(context)
+    rv.disable_buffering()
+    return rv
+
+def generate_users(form):
+    new_user_count = int(form.userNumber.data)
+    mask = form.mask.data
+    # поиск номера несуществующего пользователя
+    current_users_count = find_free_num(mask)  #
+    old_i = 0  #
+    try:
+        var_num = len(os.listdir('volume/vars/' + form.var_folder.data))
+    except FileNotFoundError:
+        var_num = 0
+
+    for i in range(0, new_user_count):
+        usr_name = mask + format(i + current_users_count - old_i, '03d')
+        # проверка на то, свободно ли нынешнее имя
+        if User.query.filter_by(username=usr_name).first() is not None:
+            current_users_count = find_free_num(mask)
+            usr_name = mask + format(current_users_count, '03d')
+            old_i = i
+        txt_pass_count = 12
+        txt_pass = ''.join(random.choices(string.ascii_letters + string.digits, k=txt_pass_count))
+        # It works correctly but further investigation on what's going on required.
+        # добавление пользователя в бд
+        if form.give_var.data:
+            new_user = User(username=usr_name, local_folder=usr_name,
+                            var_num=i % var_num,
+                            var_file=form.var_folder.data + '/program_' + str(i % var_num) + '.c')
+        else:
+            new_user = User(username=usr_name, local_folder=usr_name,
+                            var_num=-1, var_file='not_a_task.txt')
+        new_user.set_password(txt_pass)
+        dataBase.session.add(new_user)
+        # create folders for new users
+        usr_folder = 'volume/userdata/' + usr_name
+        if not os.path.exists(usr_folder):
+            copytree('new_user_folder', usr_folder)
+        dataBase.session.commit()
+        yield {'login': usr_name, 'password': txt_pass}
 
 # страница регистрации новых пользователей
 @bluePrint.route('/admin/register', methods=['GET', 'POST'])
@@ -316,46 +362,9 @@ def admin():
     # Отправили заполненную форму
     if form.validate_on_submit():
         if form.submit.data:
-            arUsers = []
-            new_user_count = int(form.userNumber.data)
-            mask = form.mask.data
-            # поиск номера несуществующего пользователя
-            current_users_count = find_free_num(mask)
-            old_i = 0
-            try:
-                var_num = len(os.listdir('volume/vars/' + form.var_folder.data))
-            except FileNotFoundError:
-                var_num = 0
-
-            for i in range(0, new_user_count):
-                usr_name = mask + format(i + current_users_count - old_i, '03d')
-                # проверка на то, свободно ли нынешнее имя
-                if User.query.filter_by(username=usr_name).first() is not None:
-                    current_users_count = find_free_num(mask)
-                    usr_name = mask + format(current_users_count, '03d')
-                    old_i = i
-                txt_pass_count = 12
-                txt_pass = ''.join(random.choices(string.ascii_letters + string.digits, k=txt_pass_count))
-                # It works correctly but further investigation on what's going on required.
-                # добавление пользователя в бд
-                if form.give_var.data:
-                    new_user = User(username=usr_name, local_folder=usr_name,
-                                    var_num=i % var_num,
-                                    var_file=form.var_folder.data + '/program_' + str(i % var_num) + '.c')
-                else:
-                    new_user = User(username=usr_name, local_folder=usr_name,
-                                    var_num= -1, var_file='not_a_task.txt')
-                new_user.set_password(txt_pass)
-                dataBase.session.add(new_user)
-                # create folders for new users
-                usr_folder = 'volume/userdata/' + usr_name
-                if not os.path.exists(usr_folder):
-                    copytree('new_user_folder', usr_folder)
-                arUsers.append({'login': usr_name, 'password': txt_pass})
-
-            dataBase.session.commit()
-            return render_template('admin/register.html', title='Регистрация', form=form,
-                                   arUsers=arUsers, arUsersLen=len(arUsers))
+            arUsers = generate_users(form)
+            return Response(stream_with_context(stream_template('admin/register.html', title='Регистрация', form=form,
+                                                                arUsers=arUsers)))
 
         # --------------debug settings--------------
         # if form.log_download.data:
@@ -365,7 +374,7 @@ def admin():
         #     return send_from_directory('/home/flask_skipod', 'a.txt')
 
     return render_template('admin/register.html', title='Регистрация', form=form,
-                           arUsers=[], arUsersLen=0)
+                           arUsers=[])
 
 
 @bluePrint.route('/admin/variants_generation', methods=['GET', 'POST'])
