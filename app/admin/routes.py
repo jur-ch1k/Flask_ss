@@ -37,6 +37,7 @@ def isTeacher():
     else:
         return True
 
+
 def find_free_num(mask):
     current_users_count = 0
     while 1:
@@ -301,6 +302,7 @@ def admin_forward():
 
     return render_template('admin/welcome.html', title='Панель администратора')
 
+
 def stream_template(template_name, **context):
     from app import create_app
     app = create_app()
@@ -309,6 +311,7 @@ def stream_template(template_name, **context):
     rv = t.stream(context)
     rv.disable_buffering()
     return rv
+
 
 def generate_users(form):
     new_user_count = int(form.userNumber.data)
@@ -348,6 +351,7 @@ def generate_users(form):
             copytree('new_user_folder', usr_folder)
         dataBase.session.commit()
         yield {'login': usr_name, 'password': txt_pass}
+
 
 # страница регистрации новых пользователей
 @bluePrint.route('/admin/register', methods=['GET', 'POST'])
