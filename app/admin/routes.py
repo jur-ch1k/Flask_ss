@@ -437,13 +437,12 @@ def generate_vars_page():
         if var_form.create.data:
             generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_form.var_folder.data)
             users = User.query.all()
-            var_num = 0
+            try:
+                var_num = len(os.listdir('volume/vars/' + var_form.var_folder.data))
+            except FileNotFoundError:
+                var_num = 0
             if var_form.give_var.data:
                 #замена всех вариантов
-                try:
-                    var_num = len(os.listdir('volume/vars/' + var_form.var_folder.data))
-                except FileNotFoundError:
-                    var_num = 0
                 for i, user in enumerate(users):
                     if user.var_num != -1:
                         user.var_num = i % var_num
