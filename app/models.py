@@ -43,6 +43,7 @@ class User(UserMixin, dataBase.Model):
 
     var_num = dataBase.Column(dataBase.Integer)
     var_file = dataBase.Column(dataBase.String(128))
+    var_name = dataBase.Column(dataBase.String(128))
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

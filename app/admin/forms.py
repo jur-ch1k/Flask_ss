@@ -20,7 +20,7 @@ class RegisterUsers(FlaskForm):
     mask = StringField('Маска', default=defaultMask, validators=[DataRequired()])
     dirlist = os.listdir('volume/vars')
     dirlist.remove('not_a_task.txt')
-    choices = [(val, val) for val in (sorted(dirlist))]
+    choices = [(val, val+': '+str(len(os.listdir('volume/vars/' + val)))+' шт.') for val in (sorted(dirlist))]
     var_folder = SelectField('Выбор вариант', choices=choices, validate_choice=False)
     give_var = BooleanField('Раздать варианты', default=True)
     submit = SubmitField('Создать пользователей')
