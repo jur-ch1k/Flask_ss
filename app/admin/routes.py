@@ -437,6 +437,7 @@ def generate_vars_page():
         if var_form.create.data:
             generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_form.var_folder.data)
             users = User.query.all()
+            var_num = 0
             if var_form.give_var.data:
                 #замена всех вариантов
                 try:
@@ -448,9 +449,7 @@ def generate_vars_page():
                         user.var_num = i % var_num
                         user.var_file = var_form.var_folder.data + '/program_' + str(i % var_num) + '.c'
                 dataBase.session.commit()
-            # обновляем форму
-            var_form = VarsCreation(program=params['program'], p1=params['p1'], p2=params['p2'],
-                                    p3=params['p3'], p4=params['p4'], p5=params['p5'], p6=params['p6'])
+
             return render_template('admin/generation_success.html', title='Создание вариантов', var_num=var_num)
 
         # --------------debug settings--------------
