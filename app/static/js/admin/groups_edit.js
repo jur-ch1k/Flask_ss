@@ -146,6 +146,24 @@ $(document).ready(function () {
         }
     });
 
+    $('.delete_group').on('click', function () {
+        let block = $(this).parent().parent();
+        let group = {'method': 'delete_group', 'groupName': block.attr('name')};
+        $.ajax({
+            method: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/admin/groups_edit",
+            data: JSON.stringify(group),
+            dataType: "json",
+            success: (data) => {
+                window.location.replace(window.location.pathname);
+            },
+            error: (data) => {
+                console.log('request error')
+            }
+        });
+    });
+
     $('#add_group').on('click', function () {
         let block = $(this).parent().parent(),
             input = $('input', block),

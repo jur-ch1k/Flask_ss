@@ -29,7 +29,7 @@ class Group_user(UserMixin, dataBase.Model):
     userid = dataBase.Column(dataBase.Integer, dataBase.ForeignKey('user.id'))
 
     def __repr__(self):
-        return '<Group_user {}>'.format(self.groupname)
+        return '<Group_user {}>'.format(self.groupid)
 
 
 class User(UserMixin, dataBase.Model):

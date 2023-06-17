@@ -221,6 +221,12 @@ def groups_edit():
                 group_user = Group_user.query.filter_by(groupid=group.id, userid=user.id).delete(
                     synchronize_session=False)
                 # user = User.query.filter_by(username=userName).delete(synchronize_session=False)
+        elif data['method'] == 'delete_group':
+            if data['groupName'] == 'admin' or data['groupName'] == 'teacher':
+                return render_template('errors/500.html')
+            group = Group.query.filter_by(groupname=data['groupName']).first()
+            Group_user.query.filter_by(groupid=group.id).delete(synchronize_session=False)
+            Group.query.filter_by(groupname=data['groupName']).delete(synchronize_session=False)
         dataBase.session.commit()
         return json.dumps({'status': 'OK'})
     arResult = {}

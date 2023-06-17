@@ -52,6 +52,9 @@
                 <div class="edit-block">
                     <div class="add_users">Добавить нового пользователя</div>
                     <div class="delete_users">Удалить выбранных пользователей</div>
+                    {% if group['name']!='admin' and group['name']!='teacher' %}
+                    <div class="delete_group">Удалить группу</div>
+                    {% endif %}
                 </div>
             </div>
 

@@ -79,6 +79,14 @@
     background: #F41;
 }
 
+.edit-block .delete_group:hover {
+    background: #d1360c;
+}
+
+.edit-block .delete_group {
+    background: #F41;
+}
+
 .edit-block .add_users:hover, .edit-block #add_group:hover {
     background: #3c763d;
 }
@@ -89,7 +97,7 @@
 .table-header .login{
     cursor: default;
 }
-.edit-block .delete_users, .edit-block .add_users, .edit-block #add_group {
+.edit-block .delete_users, .edit-block .add_users, .edit-block #add_group, .edit-block .delete_group {
     width: 189px;
     text-align: center;
     border: 1px solid #000;
