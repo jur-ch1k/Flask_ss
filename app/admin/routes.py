@@ -1,5 +1,5 @@
 from app.admin import bluePrint
-from app.admin.forms import RegisterUsers, VarsCreation
+from app.admin.forms import RegisterUsers, VarsCreation, VarsView
 from app.models import User, Group, Group_user, Report
 from app import dataBase
 from flask import render_template, flash, redirect, request, url_for, send_from_directory, Response, stream_with_context
@@ -326,7 +326,7 @@ def generate_users(form):
     current_users_count = find_free_num(mask)  #
     old_i = 0  #
     try:
-        var_num = len(os.listdir('volume/vars/' + form.var_folder.data))
+        var_num = len(os.listdir('volume/vars/' + form.vars_names.data))
     except FileNotFoundError:
         var_num = 0
 
@@ -344,8 +344,8 @@ def generate_users(form):
         if form.give_var.data:
             new_user = User(username=usr_name, local_folder=usr_name,
                             var_num=i % var_num,
-                            var_file=form.var_folder.data + '/program_' + str(i % var_num) + '.c',
-                            var_name=form.var_folder.data)
+                            var_file=form.vars_names.data + '/program_' + str(i % var_num) + '.c',
+                            var_name=form.vars_names.data)
         else:
             new_user = User(username=usr_name, local_folder=usr_name,
                             var_num=-1, var_file='not_a_task.txt')
@@ -368,7 +368,7 @@ def admin():
     form = RegisterUsers()
     dirlist = os.listdir('volume/vars')
     dirlist.remove('not_a_task.txt')
-    form.var_folder.choices = [(val, val+': '+str(len(os.listdir('volume/vars/' + val)))+' шт.') for val in (sorted(dirlist))]
+    form.vars_names.choices = [(val, val+': '+str(len(os.listdir('volume/vars/' + val)))+' шт.') for val in (sorted(dirlist))]
 
     # Отправили заполненную форму
     if form.validate_on_submit():
@@ -394,8 +394,6 @@ def generate_vars_page():
     if isAdmin() is False:
         return render_template('errors/500.html')
     var_form = VarsCreation()
-    # dirlist = os.listdir('volume/vars')
-    # dirlist.remove('not_a_task.txt')
 
     # Отправили заполненную форму
     if var_form.validate_on_submit():
@@ -431,9 +429,9 @@ def generate_vars_page():
 
         #был создан вариант, имя которого совпадает с уже сущесвтующим
         if var_form.create.data and not var_form.give_var.data:
-            if var_form.var_folder.data in os.listdir('volume/vars'):
+            if var_form.var_name.data in os.listdir('volume/vars'):
                 #выдаём предупреждение
-                return render_template('admin/var_exists.html', var_nam=var_form.var_folder.data)
+                return render_template('admin/var_exists.html', var_name=var_form.var_name.data)
 
         #предпросмотр варианта, генерируем только первый
         if var_form.preview.data:
@@ -445,10 +443,17 @@ def generate_vars_page():
 
         #создаём варианты
         if var_form.create.data:
-            generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_form.var_folder.data)
+            generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_form.var_name.data)
+            # сохранение данных о варианте
+            all_data = {}
+            with open('volume/vars_all_data.json', 'r') as f:
+                all_data = json.load(f)
+            all_data[var_form.var_name.data] = params
+            with open('volume/vars_all_data.json', 'w') as f:
+                json.dump(all_data, f)
             users = User.query.all()
             try:
-                var_num = len(os.listdir('volume/vars/' + var_form.var_folder.data))
+                var_num = len(os.listdir('volume/vars/' + var_form.var_name.data))
             except FileNotFoundError:
                 var_num = 0
             if var_form.give_var.data:
@@ -456,7 +461,7 @@ def generate_vars_page():
                 for i, user in enumerate(users):
                     if user.var_num != -1:
                         user.var_num = i % var_num
-                        user.var_file = var_form.var_folder.data + '/program_' + str(i % var_num) + '.c'
+                        user.var_file = var_form.var_name.data + '/program_' + str(i % var_num) + '.c'
                 dataBase.session.commit()
 
             return render_template('admin/generation_success.html', title='Создание вариантов', var_num=var_num)
@@ -472,7 +477,8 @@ def generate_vars_page():
     # обновляем форму
     var_form = VarsCreation(program=params['program'], p1=params['p1'], p2=params['p2'],
                             p3=params['p3'], p4=params['p4'], p5=params['p5'], p6=params['p6'])
-    return render_template('admin/variants_generation.html', title='Создание вариантов boops', form=var_form,
+
+    return render_template('admin/variants_generation.html', title='Создание вариантов', form=var_form,
                            preview=False)
 
 
@@ -496,6 +502,14 @@ def regenerate_var(var_name):
     ]
     generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_name)
 
+    # сохранение данных о варианте
+    all_data = {}
+    with open('volume/vars_all_data.json', 'r') as f:
+        all_data = json.load(f)
+    all_data[var_name] = params
+    with open('volume/vars_all_data.json', 'w') as f:
+        json.dump(all_data, f)
+
     usrs = User.query.filter_by(var_name=var_name)
     try:
         var_num = len(os.listdir('volume/vars/' + var_name))
@@ -507,3 +521,43 @@ def regenerate_var(var_name):
     dataBase.session.commit()
 
     return render_template('admin/generation_success.html', title='Создание вариантов', var_num=var_num)
+
+
+@bluePrint.route('/admin/var_view', methods=['GET', 'POST'])
+@login_required
+def var_view():
+    form = VarsView()
+    vars_data = {}
+
+    if form.validate_on_submit():
+        if form.delete.data:
+            form.program.data = ''
+            form.p1.data = ''
+            form.p2.data = ''
+            form.p3.data = ''
+            form.p4.data = ''
+            form.p5.data = ''
+            form.p6.data = ''
+            with open('volume/vars_all_data.json', 'r') as f:
+                vars_data = json.load(f)
+            vars_data.pop(form.vars_names.data)
+            with open('volume/vars_all_data.json', 'w') as f:
+                json.dump(vars_data, f)
+
+            rmtree(f'volume/vars/{form.vars_names.data}')
+
+    # подготовка данных для страницы
+    dirlist = os.listdir('volume/vars')
+    dirlist.remove('not_a_task.txt')
+    form.vars_names.choices = [(val, val) for val in (sorted(dirlist))]
+    with open('volume/vars_all_data.json', 'r') as f:
+        vars_data = json.load(f)
+    isdeletable = {}
+    for var_name in vars_data.keys():
+        if User.query.filter_by(var_name=var_name).count() == 0:
+            isdeletable[var_name] = 1
+        else:
+            isdeletable[var_name] = 0
+
+    return render_template('admin/var_view.html', title='Просмотр вариантов', form=form,
+                           vars=vars_data, isdeletable=isdeletable)
