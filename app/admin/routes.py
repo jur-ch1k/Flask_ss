@@ -429,7 +429,7 @@ def generate_vars_page():
 
         #был создан вариант, имя которого совпадает с уже сущесвтующим
         if var_form.create.data and not var_form.give_var.data:
-            if var_form.var_name.data in os.listdir('volume/vars'):
+            if (var_form.var_name.data in os.listdir('volume/vars')) and (User.query.filter_by(var_name=var_form.var_name.data).count() != 0):
                 #выдаём предупреждение
                 return render_template('admin/var_exists.html', var_name=var_form.var_name.data)
 

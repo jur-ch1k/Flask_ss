@@ -11,8 +11,8 @@
 {% block app_content %}
     {% block leftNavBar %}
     {% endblock %}
-    <h1>Внимание! Вариант с таким именем уже существует.</h1>
-    <p>Если Вы продолжите генерацию, задания из этого варианта, выданные ранее, будут замены у пользователей.</p>
+    <h1>Внимание! Этот вариант уже был выдан пользователям.</h1>
+    <p>Если Вы продолжите генерацию, задания из этого варианта, будут замены у пользователей, получивших его ранее.</p>
     <div class="decide-btns">
         <button onclick="window.location.href='/admin/accept_generation/{{ var_name }}';" type="button" class="btn btn-success">Продолжить</button>
         <button onclick="window.location.href='/admin/variants_generation';"type="button" class="btn btn-danger">Отменить</button>
