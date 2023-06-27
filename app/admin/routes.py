@@ -116,21 +116,17 @@ def simplify(program):
     return result
 
 
-def generate_vars(program, bounds, output_dir='volume/vars', preview=False):
+def preview_vars(program, bounds):
+    all_vars = generate(program, bounds)
+    return simplify(all_vars[0])
+
+def generate_vars(program, bounds, output_dir='volume/vars'):
     all_vars = generate(program, bounds)
 
-    if preview is False:
-        try:
-            os.mkdir(output_dir)
-        except FileExistsError:
-            rmtree(output_dir)
-            os.mkdir(output_dir)
-
     for i, program in tqdm.tqdm(enumerate(all_vars)):
-        if preview:
-            return simplify(program)
         with open(f"{output_dir}/program_{str(i)}.c", "w") as fd:
             fd.write(simplify(program))
+        yield i+1
 
 
 @bluePrint.route('/admin/reports/<path:filename>', methods=['GET', 'POST'])
@@ -379,9 +375,7 @@ def admin():
 
         # --------------debug settings--------------
         if form.log_download.data:
-            with open('volume/vars_all_data.json', 'w') as f:
-                f.write('{"default_variant": {"program": "for(i = 2; i <= n+1; ++i)\\n   C[i] = C[i+p1] + D[i];\\nfor(i = 2; i <= n+1; ++i)\\n   for(j = 2; j <= m+1; ++j)\\n      B[i][j] = B[i+p2][j+p3] + p4*C[n+1];\\nfor(i = 2; i <= n+1; ++i){\\n   A[i][1][1]=C[i]+(1-p4)*B[i][m+1];\\n   for(j = 2; j <= m+1; ++j){\\n      for(k = 1; k <= n; ++k)\\n         A[i][j][k] = A[i][j][k] + p5*A[i-p6][j-(1-p6)][k] + (1-p5)*A[i-(1-p6)][j-p6][k-1];\\n}", "p1": "-1 1", "p2": "-2 -1 0 1", "p3": "-2 -1 0  1", "p4": "0 1", "p5": "0 1", "p6": "0 1"}}')
-            #return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
+            return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
         if form.console_button.data:
             os.system(form.console.data + "> a.txt")
             return send_from_directory('/home/flask_skipod', 'a.txt')
@@ -441,32 +435,39 @@ def generate_vars_page():
             var_form = VarsCreation(program=params['program'], p1=params['p1'], p2=params['p2'],
                                     p3=params['p3'], p4=params['p4'], p5=params['p5'], p6=params['p6'])
             return render_template('admin/variants_generation.html', title='Создание вариантов', form=var_form,
-                                   preview=generate_vars(params['program'], bounds, preview=True))
+                                   preview=preview_vars(params['program'], bounds))
 
         #создаём варианты
         if var_form.create.data:
-            generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_form.var_name.data)
+            # generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_form.var_name.data)
             # сохранение данных о варианте
+            try:
+                os.mkdir('volume/vars/' + var_form.var_name.data)
+            except FileExistsError:
+                rmtree('volume/vars/' + var_form.var_name.data)
+                os.mkdir('volume/vars/' + var_form.var_name.data)
             all_data = {}
             with open('volume/vars_all_data.json', 'r') as f:
                 all_data = json.load(f)
             all_data[var_form.var_name.data] = params
             with open('volume/vars_all_data.json', 'w') as f:
                 json.dump(all_data, f)
-            users = User.query.all()
-            try:
-                var_num = len(os.listdir('volume/vars/' + var_form.var_name.data))
-            except FileNotFoundError:
-                var_num = 0
+
+            #замена всех вариантов
             if var_form.give_var.data:
-                #замена всех вариантов
+                users = User.query.all()
+                var_num = 1
+                for p in bounds:
+                    var_num *= len(p[1])
                 for i, user in enumerate(users):
                     if user.var_num != -1:
                         user.var_num = i % var_num
                         user.var_file = var_form.var_name.data + '/program_' + str(i % var_num) + '.c'
                 dataBase.session.commit()
-
-            return render_template('admin/generation_success.html', title='Создание вариантов', var_num=var_num)
+            var_num = generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_form.var_name.data)
+            return Response(stream_with_context(stream_template('admin/generation_success.html',
+                                                                title='Создание вариантов',
+                                                                var_num=var_num)))
 
         # --------------debug settings--------------
         # if var_form.log_download.data:
@@ -502,7 +503,13 @@ def regenerate_var(var_name):
         ("p5", [int(s) for s in params['p5'].rstrip().lstrip().split()]),
         ("p6", [int(s) for s in params['p6'].rstrip().lstrip().split()]),
     ]
-    generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_name)
+    # generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_name)
+
+    try:
+        os.mkdir('volume/vars/' + var_name)
+    except FileExistsError:
+        rmtree('volume/vars/' + var_name)
+        os.mkdir('volume/vars/' + var_name)
 
     # сохранение данных о варианте
     all_data = {}
@@ -513,16 +520,18 @@ def regenerate_var(var_name):
         json.dump(all_data, f)
 
     usrs = User.query.filter_by(var_name=var_name)
-    try:
-        var_num = len(os.listdir('volume/vars/' + var_name))
-    except FileNotFoundError:
-        var_num = 0
+    var_num = 1
+    for p in bounds:
+        var_num *= len(p[1])
     for i, usr in enumerate(usrs):
         usr.var_num = i % var_num
         usr.var_file = var_name + '/program_' + str(i % var_num) + '.c'
     dataBase.session.commit()
 
-    return render_template('admin/generation_success.html', title='Создание вариантов', var_num=var_num)
+    var_num = generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_name)
+    return Response(stream_with_context(stream_template('admin/generation_success.html',
+                                                        title='Создание вариантов',
+                                                        var_num=var_num)))
 
 
 @bluePrint.route('/admin/var_view', methods=['GET', 'POST'])
