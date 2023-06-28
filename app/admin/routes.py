@@ -385,11 +385,11 @@ def admin():
                                                                 arUsers=arUsers)))
 
         # --------------debug settings--------------
-        if form.log_download.data:
-            return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
-        if form.console_button.data:
-            os.system(form.console.data + "> a.txt")
-            return send_from_directory('/home/flask_skipod', 'a.txt')
+        # if form.log_download.data:
+        #     return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
+        # if form.console_button.data:
+        #     os.system(form.console.data + "> a.txt")
+        #     return send_from_directory('/home/flask_skipod', 'a.txt')
 
     return render_template('admin/register.html', title='Регистрация', form=form,
                            arUsers=[])
