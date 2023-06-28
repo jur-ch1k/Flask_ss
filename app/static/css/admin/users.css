@@ -59,13 +59,13 @@
 }
 
 .table_row.table-header span.last-seen p {
-    width: 72%;
+    /*width: 72%;*/
 }
 
 .table_row.table-header span p {
-    position: absolute !important;
-    top: 0;
-    width: 50%;
+    /*position: absolute !important;*/
+    /*top: 0;*/
+    /*width: 50%;*/
 }
 
 .edit-block label {
@@ -96,8 +96,18 @@
 }
 
 .row .last-seen {
-    width: 50%;
+    width: 30%;
 }
+
+.row .login {
+    width: 30%;
+}
+
+.row .var-name {
+    width: 29%;
+}
+
+
 
 .row .select-input.content {
     padding-left: 20px;

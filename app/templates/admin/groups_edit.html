@@ -14,6 +14,7 @@
         var groups = {{ arResult['groups']|tojson }},
             users = {{ arResult['users_list']|tojson }};
     </script>
+    <h1>Группы</h1>
     <div class="groups-block">
         <div class="tabs">
             {% for group in arResult['groups'] %}

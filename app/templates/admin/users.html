@@ -19,8 +19,10 @@
 {#                <input type="button" id="delete_users" style="display: none">#}
 {#                <label for="delete_users"><img src="{{ url_for('static', filename='images/delete.png') }}"></label>#}
 {#            </span>#}
-            <span class="login"><p>Login</p></span>
-            <span class="last-seen"><p>Last Seen</p></span>
+            <span style="width: 10%"></span>
+            <span class="login"><p>Логин</p></span>
+            <span class="last-seen"><p>Последнее посещение</p></span>
+            <span class="var-name"><p>Вариант</p></span>
         </div>
         {#        {% id = 0 %}#}
         {% for user in arUsers %}
@@ -28,8 +30,17 @@
             <div class="table_row">
                 {#                <span>{{ id }}</span>#}
                 <span class="select-input content"><input type="checkbox"></span>
-                <span class="user-name"><p>{{ user.username }}</p></span><span
+                <span class="login"><p>{{ user.username }}</p></span><span
                     class="last-seen"><p>{{ user.last_seen }}</p></span>
+                <span class="var-name">
+                    <p>
+                        {% if not user.var_name %}
+                        Варианты не выдаются
+                        {% else %}
+                        <a href="{{ url_for('main.download_var', username=user.username) }}"> {{ user.var_name }}</a>
+                        {% endif %}
+                    </p>
+                </span>
             </div>
         {% endfor %}
     </div>

@@ -120,13 +120,24 @@ def preview_vars(program, bounds):
     all_vars = generate(program, bounds)
     return simplify(all_vars[0])
 
-def generate_vars(program, bounds, output_dir='volume/vars'):
-    all_vars = generate(program, bounds)
 
+def generate_vars(program, bounds, usrs, var_name, output_dir='volume/vars'):
+    all_vars = generate(program, bounds)
+    var_num = 0
     for i, program in tqdm.tqdm(enumerate(all_vars)):
         with open(f"{output_dir}/program_{str(i)}.c", "w") as fd:
             fd.write(simplify(program))
         yield i+1
+        var_num = i+1
+
+    if usrs is not None:
+        print('given')
+        for i, usr in enumerate(usrs):
+            if usr.var_num != -1:
+                usr.var_num = i % var_num
+                usr.var_file = var_name + '/program_' + str(i % var_num) + '.c'
+                usr.var_name = var_name
+        dataBase.session.commit()
 
 
 @bluePrint.route('/admin/reports/<path:filename>', methods=['GET', 'POST'])
@@ -260,9 +271,9 @@ def users():
         if ('usersDelete' in data.keys()):
             for userName in data['usersDelete']:
                 usr = User.query.filter_by(username=userName).first()
-                User.query.filter_by(username=userName).delete(synchronize_session=False)
                 Report.query.filter_by(user_id=usr.id).delete(synchronize_session=False)
                 Group_user.query.filter_by(userid=usr.id).delete(synchronize_session=False)
+                User.query.filter_by(username=userName).delete(synchronize_session=False)
                 usr_folder = 'volume/userdata/' + userName
                 if os.path.exists(usr_folder):
                     rmtree(usr_folder)
@@ -439,7 +450,6 @@ def generate_vars_page():
 
         #создаём варианты
         if var_form.create.data:
-            # generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_form.var_name.data)
             # сохранение данных о варианте
             try:
                 os.mkdir('volume/vars/' + var_form.var_name.data)
@@ -453,18 +463,11 @@ def generate_vars_page():
             with open('volume/vars_all_data.json', 'w') as f:
                 json.dump(all_data, f)
 
+            usrs = None
             #замена всех вариантов
             if var_form.give_var.data:
-                users = User.query.all()
-                var_num = 1
-                for p in bounds:
-                    var_num *= len(p[1])
-                for i, user in enumerate(users):
-                    if user.var_num != -1:
-                        user.var_num = i % var_num
-                        user.var_file = var_form.var_name.data + '/program_' + str(i % var_num) + '.c'
-                dataBase.session.commit()
-            var_num = generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_form.var_name.data)
+                usrs = User.query.all()
+            var_num = generate_vars(params['program'], bounds, usrs, var_form.var_name.data, 'volume/vars/' + var_form.var_name.data)
             return Response(stream_with_context(stream_template('admin/generation_success.html',
                                                                 title='Создание вариантов',
                                                                 var_num=var_num)))
@@ -520,15 +523,8 @@ def regenerate_var(var_name):
         json.dump(all_data, f)
 
     usrs = User.query.filter_by(var_name=var_name)
-    var_num = 1
-    for p in bounds:
-        var_num *= len(p[1])
-    for i, usr in enumerate(usrs):
-        usr.var_num = i % var_num
-        usr.var_file = var_name + '/program_' + str(i % var_num) + '.c'
-    dataBase.session.commit()
 
-    var_num = generate_vars(params['program'], bounds, output_dir='volume/vars/' + var_name)
+    var_num = generate_vars(params['program'], bounds, usrs, var_name, output_dir='volume/vars/' + var_name)
     return Response(stream_with_context(stream_template('admin/generation_success.html',
                                                         title='Создание вариантов',
                                                         var_num=var_num)))

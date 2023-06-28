@@ -15,7 +15,7 @@ $(document).ready(function () {
         $('.users-table .table_row .select-input input').removeClass('checked');
         $('.users-table .table_row .select-input input').prop('checked',false);
        $('.users-table .table_row').each(function (){
-            if($('.user-name p',this).text().indexOf(mask)+1) {
+            if($('.login p',this).text().indexOf(mask)+1) {
                 $('.select-input input', this).addClass('checked');
                 $('.select-input input', this).prop('checked',true);
             }
@@ -30,7 +30,7 @@ $(document).ready(function () {
     $('.edit-block #delete_users').on('click', function () {
         let usersDelete = {'usersDelete': []};
         $('.table_row .select-input.content input.checked').each(function () {
-            let userName = $(this).parents('.table_row').children('.user-name').text();
+            let userName = $(this).parents('.table_row').children('.login').text();
             if (userName != 'ucmc2020ssRoot')
                 usersDelete.usersDelete.push(userName);
         });
@@ -54,7 +54,7 @@ $(document).ready(function () {
     $('.edit-block #reset_password').on('click', function () {
         let usersNewPassWord = {'usersNewPassWord': []};
         $('.table_row .select-input.content input.checked').each(function () {
-            let userName = $(this).parents('.table_row').children('.user-name').text();
+            let userName = $(this).parents('.table_row').children('.login').text();
             if (userName != 'ucmc2020ssRoot')
                 usersNewPassWord.usersNewPassWord.push(userName);
         });
