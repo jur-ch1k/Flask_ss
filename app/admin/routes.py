@@ -352,10 +352,10 @@ def generate_users(form):
             new_user = User(username=usr_name, local_folder=usr_name,
                             var_num=i % var_num,
                             var_file=form.vars_names.data + '/program_' + str(i % var_num) + '.c',
-                            var_name=form.vars_names.data)
+                            var_name=form.vars_names.data, task_file='test_task.xml')
         else:
             new_user = User(username=usr_name, local_folder=usr_name,
-                            var_num=-1, var_file='not_a_task.txt')
+                            var_num=-1, var_file='not_a_task.txt', task_file='test_task.xml')
         new_user.set_password(txt_pass)
         dataBase.session.add(new_user)
         # create folders for new users

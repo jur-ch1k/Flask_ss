@@ -386,3 +386,4 @@ TypeError: not_found_error() takes 0 positional arguments but 1 was given
 2023-05-17 17:41:49,546 INFO: Microbial startup [int /home/jur-chik/Desktop/Flask/Flask_ss/app/__init__.py:80]
 2023-05-17 17:41:56,585 INFO: Microbial startup [int /home/jur-chik/Desktop/Flask/Flask_ss/app/__init__.py:80]
 2023-05-17 17:41:58,180 INFO: Microbial startup [int /home/jur-chik/Desktop/Flask/Flask_ss/app/__init__.py:80]
+2023-08-01 16:54:10,670 INFO: Microbial startup [int /home/jur-chik/Desktop/Flask/Flask_ss/app/__init__.py:80]
