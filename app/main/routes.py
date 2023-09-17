@@ -11,6 +11,7 @@ from app.main.forms import TaskReceiveForm
 from app.models import User, Report
 import os
 from flask import send_from_directory
+from shutil import rmtree
 from os import path
 
 
@@ -65,27 +66,36 @@ def upload_report():
     form = ReportSubmitForm()
     if form.validate_on_submit():
         # Определим вспомогательные переменные
-        print("RFIRFIF")
         cur_abs_path = os.path.abspath(os.path.curdir)
         usr_report_path = "/volume/userdata/" + current_user.local_folder + "/reports"
-        # Нужно создать локальную директорию для хранения данных по адресу, который выдан этому юзверю (если таковой есть)
-        # if not os.path.exists(cur_abs_path + usr_report_path):
-        #     os.makedirs(cur_abs_path + usr_report_path, mode=0x777, exist_ok=True)
-        # Нужно записать в эту директорию загнанные данные.
-        if os.path.exists(cur_abs_path + usr_report_path):
-            report_name = form.file_data.data.filename
-            if os.path.exists(cur_abs_path + usr_report_path + "/" + report_name):
-                os.remove(os.path.join(cur_abs_path + usr_report_path + "/", report_name))
-                if not os.path.exists(cur_abs_path + usr_report_path + "/" + report_name):
-                    report = Report.query.filter_by(user_id=current_user.id, report_name=report_name).delete(
-                        synchronize_session=False)
+        # Нужно записать в директорию /reports загнанные данные.
+        report_name = form.file_data.data.filename
+        # Отчёты ранее не загружались
+        if Report.query.filter_by(user_id=current_user.id).count() == 0:
+            new_report = Report(report_name=report_name, user_id=current_user.id,
+                                date_creation=datetime.utcnow(), var_num=current_user.var_num,
+                                var_file=current_user.var_file)
             form.file_data.data.save(cur_abs_path + usr_report_path + "/" + report_name)
-            if os.path.exists(cur_abs_path + usr_report_path + "/" + report_name):
-                new_report = Report(report_name=report_name, user_id=current_user.id,
-                                    date_creation=datetime.utcnow(), var_num=current_user.var_num,
-                                    var_file=current_user.var_file)
-                dataBase.session.add(new_report)
+            dataBase.session.add(new_report)
+            dataBase.session.commit()
+            return redirect(url_for('main.upload_report'))
+
+        # Отчёт уже был проверен
+        if Report.query.filter_by(user_id=current_user.id).first().mark != None:
+            return render_template('report_checked.html', title='Мои отчеты')
+
+        # Отчёт отправлен повторно
+        report = Report.query.filter_by(user_id=current_user.id).first()
+        report.report_name = report_name
+        report.date_creation = datetime.utcnow()
         dataBase.session.commit()
+
+        # Пересохраняем файл
+        files = os.listdir(cur_abs_path + usr_report_path)
+        for file in files:
+            os.remove(cur_abs_path + usr_report_path + '/' + file)
+        form.file_data.data.save(cur_abs_path + usr_report_path + "/" + report_name)
+
         # Всё необходимое создано, возвращаемся на страницу пользователя
         return redirect(url_for('main.upload_report'))
     reports_query = Report.query.filter_by(user_id=current_user.id)

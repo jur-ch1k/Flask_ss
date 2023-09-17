@@ -67,7 +67,7 @@
 }
 
 .row span.report-name {
-    width: 22%;
+    width: 20%;
 }
 
 .table-content span.report-name {
@@ -100,7 +100,7 @@
 /*}*/
 
 .row span.report-user {
-    width: 12%;
+    width: 10%;
 }
 
 .row span.select-input {

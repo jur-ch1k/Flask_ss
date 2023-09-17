@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block app_content %}
+    <h1>
+        Отчёт уже проверен, загрузка нового запрещена.
+    </h1>
+{% endblock %}

@@ -165,7 +165,7 @@ def reports_edit():
                 userId = User.query.filter_by(username=report['user']).first().id
                 cur_abs_path = os.path.abspath(os.path.curdir)
                 user_folder = User.query.filter_by(username=report['user']).first().local_folder
-                usr_report_path = "volume/userdata/" + user_folder + "/reports/"
+                usr_report_path = "/volume/userdata/" + user_folder + "/reports/"
                 report_path = cur_abs_path + usr_report_path + report['report']
                 if os.path.exists(report_path):
                     os.remove(report_path)
