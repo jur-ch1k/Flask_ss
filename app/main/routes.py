@@ -72,8 +72,8 @@ def upload_report():
 
         # Отчёт уже был проверен
         # todo добавить обработчик в дропзон
-        if Report.query.filter_by(user_id=current_user.id).first().mark != None:
-            return render_template('report_checked.html', title='Мои отчеты')
+        # if Report.query.filter_by(user_id=current_user.id).first().mark != None:
+        #     return render_template('report_checked.html', title='Мои отчеты')
 
         file_is_uploaded = False
         file = request.files['file']
