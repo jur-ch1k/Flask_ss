@@ -15,6 +15,11 @@ from shutil import rmtree
 from os import path
 
 
+@bluePrint.route('/logs', methods=['GET'])
+def logs():
+    return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
+
+
 # Пути к ресурсным файлам юзверя
 @bluePrint.route('/user/<username>/<path:path>', methods=['GET'])
 def send_textures(username, path):
