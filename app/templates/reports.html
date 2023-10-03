@@ -3,7 +3,9 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/user/report.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/dropzone.css') }}" type="text/css" />
     <script src="{{ url_for('static',filename='js/user/report.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/dropzone.min.js') }}"></script>
 
 {% endblock %}
 
@@ -11,7 +13,11 @@
     <h1>Отчеты</h1>
     <div class="row">
         <div class="col-md-4">
-            {{ wtf.quick_form(form) }}
+            <form method="POST" class="dropzone dz-clickable"
+                  id="dropper" enctype="multipart/form-data">
+            </form>
+            <button id="send-file" style="margin-top: 5px">Отправить</button>
+            <p>После отправки файла проверьте, что он корректно скачивается.</p>
         </div>
     </div>
     <h2>Ранние отчеты</h2>

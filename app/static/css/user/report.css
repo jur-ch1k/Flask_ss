@@ -65,3 +65,22 @@
 .row span.teacher_name {
     width: 10%;
 }
+
+.col-md-4 {
+    width: 50%;
+}
+
+#dropper {
+    border-radius: 10px;
+}
+
+.dz-error-message span {
+    width: 100%;
+}
+
+.dropzone .dz-preview .dz-details .dz-filename span, .dropzone .dz-preview .dz-details .dz-size span {
+  background-color: ;
+  padding: 0 .4em;
+  border-radius: 3px;
+  display: inline;
+}

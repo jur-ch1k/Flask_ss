@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import send_from_directory, render_template, flash, redirect, url_for, request, current_app
+from flask import send_from_directory, render_template, flash, redirect, url_for, request, current_app, make_response
 from flask_login import current_user, login_required
 from datetime import datetime
 from app import dataBase
@@ -57,47 +57,88 @@ def download_var(username):
 def download(filename):
     cur_abs_path = os.path.abspath(os.path.curdir)
     usr_report_path = "/volume/userdata/" + current_user.local_folder + "/reports"
-    return send_from_directory(directory=cur_abs_path+usr_report_path, filename=filename)
+    return send_from_directory(directory=cur_abs_path+usr_report_path, filename=filename, as_attachment=True)
 
 
 @bluePrint.route('/upload_report', methods=['GET', 'POST'])
 @login_required
 def upload_report():
-    form = ReportSubmitForm()
-    if form.validate_on_submit():
-        # Определим вспомогательные переменные
-        cur_abs_path = os.path.abspath(os.path.curdir)
-        usr_report_path = "/volume/userdata/" + current_user.local_folder + "/reports"
-        # Нужно записать в директорию /reports загнанные данные.
-        report_name = form.file_data.data.filename
-        # Отчёты ранее не загружались
-        if Report.query.filter_by(user_id=current_user.id).count() == 0:
-            new_report = Report(report_name=report_name, user_id=current_user.id,
-                                date_creation=datetime.utcnow(), var_num=current_user.var_num,
-                                var_file=current_user.var_file)
-            form.file_data.data.save(cur_abs_path + usr_report_path + "/" + report_name)
-            dataBase.session.add(new_report)
-            dataBase.session.commit()
-            return redirect(url_for('main.upload_report'))
+    if request.method == 'POST':
 
         # Отчёт уже был проверен
+        # todo добавить обработчик в дропзон
         if Report.query.filter_by(user_id=current_user.id).first().mark != None:
             return render_template('report_checked.html', title='Мои отчеты')
 
-        # Отчёт отправлен повторно
-        report = Report.query.filter_by(user_id=current_user.id).first()
-        report.report_name = report_name
-        report.date_creation = datetime.utcnow()
-        dataBase.session.commit()
+        file_is_uploaded = False
+        file = request.files['file']
 
-        # Пересохраняем файл
-        files = os.listdir(cur_abs_path + usr_report_path)
-        for file in files:
-            os.remove(cur_abs_path + usr_report_path + '/' + file)
-        form.file_data.data.save(cur_abs_path + usr_report_path + "/" + report_name)
+        save_path = "volume/userdata/" + current_user.local_folder + "/reports/" + file.filename
+        current_chunk = int(request.form['dzchunkindex'])
 
-        # Всё необходимое создано, возвращаемся на страницу пользователя
-        return redirect(url_for('main.upload_report'))
+        # If the file already exists it's ok if we are appending to it,
+        # but not if it's new file that would overwrite the existing one
+        if os.path.exists(save_path) and current_chunk == 0:
+            # 400 and 500s will tell dropzone that an error occurred and show an error
+            os.remove(save_path)
+
+        try:
+            with open(save_path, 'ab') as f:
+                f.seek(int(request.form['dzchunkbyteoffset']))
+                f.write(file.stream.read())
+        except OSError:
+            # log.exception will include the traceback so we can see what's wrong
+            print('Could not write to file')
+            return make_response(("Not sure why,"
+                                  " but we couldn't write the file to server", 500))
+
+        total_chunks = int(request.form['dztotalchunkcount'])
+
+        if current_chunk + 1 == total_chunks:
+            # This was the last chunk, the file should be complete and the size we expect
+            if os.path.getsize(save_path) != int(request.form['dztotalfilesize']):
+                print(f"File {file.filename} was completed, "
+                      f"but has a size mismatch."
+                      f"Was {os.path.getsize(save_path)} but we"
+                      f" expected {request.form['dztotalfilesize']} ")
+                return make_response(('Size mismatch', 500))
+            else:
+                print(f'File {file.filename} has been uploaded successfully')
+                file_is_uploaded = True
+        else:
+            print(f'Chunk {current_chunk + 1} of {total_chunks} '
+                  f'for file {file.filename} complete')
+
+
+        if file_is_uploaded:
+            upload_file = request.files['file']
+            # Определим вспомогательные переменные
+            cur_abs_path = os.path.abspath(os.path.curdir)
+            usr_report_path = "/volume/userdata/" + current_user.local_folder + "/reports"
+            # Нужно записать в директорию /reports загнанные данные.
+            report_name = upload_file.filename
+            # Отчёты ранее не загружались
+            if Report.query.filter_by(user_id=current_user.id).count() == 0:
+                new_report = Report(report_name=report_name, user_id=current_user.id,
+                                    date_creation=datetime.utcnow(), var_num=current_user.var_num,
+                                    var_file=current_user.var_file)
+                # upload_file.save(cur_abs_path + usr_report_path + "/" + report_name)
+                dataBase.session.add(new_report)
+                dataBase.session.commit()
+                return redirect(url_for('main.upload_report'))
+
+            # Отчёт уже был проверен
+            # if Report.query.filter_by(user_id=current_user.id).first().mark != None:
+            #     return render_template('report_checked.html', title='Мои отчеты')
+
+            # Отчёт отправлен повторно
+            report = Report.query.filter_by(user_id=current_user.id).first()
+            report.report_name = report_name
+            report.date_creation = datetime.utcnow()
+            dataBase.session.commit()
+
+            # Всё необходимое создано, возвращаемся на страницу пользователя
+            return redirect(url_for('main.upload_report'))
     reports_query = Report.query.filter_by(user_id=current_user.id)
     arReports = []
     for report in reports_query:
@@ -108,7 +149,7 @@ def upload_report():
             'comment': report.comment,
             'teacher_name': report.teacher_name
         })
-    return render_template('reports.html', title='Мои отчеты', form=form, reports=arReports)
+    return render_template('reports.html', title='Мои отчеты', reports=arReports)
 
 
 @bluePrint.route('/edit_profile', methods=['GET', 'POST'])

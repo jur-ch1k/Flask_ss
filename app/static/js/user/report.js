@@ -22,4 +22,37 @@ $(document).ready(function () {
     $('.table_row .report-name p').on('click', function () {
 
     });
+
+    Dropzone.options.dropper = {
+        paramName: 'file',
+        chunking: true,
+        forceChunking: true,
+        url: '/upload_report',
+        chunkSize: 1000000,
+        autoProcessQueue: false,
+        maxFiles: 1,
+        addRemoveLinks: true,
+        createImageThumbnails: false,
+        init: function() {
+
+            this.on("addedfile", function(file) {
+                $('.dz-progress').hide();
+                if (this.files.length > 1) {
+                    alert("Вы можете загрузить только один файл.");
+                    this.removeFile(file);
+                }
+            });
+
+            this.on("success", function(file) {
+                window.location.replace(window.location.pathname);
+            });
+        }
+    }
+
+    $('#send-file').on('click', function(){
+        $('.dz-progress').show();
+        var dropzone = Dropzone.forElement("#dropper");
+        dropzone.processQueue();
+    });
+
 });
