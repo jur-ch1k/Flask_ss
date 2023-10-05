@@ -43,8 +43,12 @@ $(document).ready(function () {
                 }
             });
 
-            this.on("success", function(file) {
+            this.on("success", function() {
                 window.location.replace(window.location.pathname);
+            });
+
+            this.on('error', function(e){
+                //alert(e);
             });
         }
     }

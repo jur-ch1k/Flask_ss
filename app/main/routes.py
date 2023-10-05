@@ -72,8 +72,8 @@ def upload_report():
 
         # Отчёт уже был проверен
         # todo добавить обработчик в дропзон
-        # if Report.query.filter_by(user_id=current_user.id).first().mark != None:
-        #     return render_template('report_checked.html', title='Мои отчеты')
+        if Report.query.filter_by(user_id=current_user.id).count() != 0 and Report.query.filter_by(user_id=current_user.id).first().mark != None:
+            return make_response('Отчёт уже проверен, загрузка нового невозможна.', 500)
 
         file_is_uploaded = False
         file = request.files['file']
@@ -106,7 +106,7 @@ def upload_report():
                       f"but has a size mismatch."
                       f"Was {os.path.getsize(save_path)} but we"
                       f" expected {request.form['dztotalfilesize']} ")
-                return make_response(('Size mismatch', 500))
+                return make_response(('При отправке произошла ошибка, попробуте отправить повторно.', 500))
             else:
                 print(f'File {file.filename} has been uploaded successfully')
                 file_is_uploaded = True
@@ -130,7 +130,7 @@ def upload_report():
                 # upload_file.save(cur_abs_path + usr_report_path + "/" + report_name)
                 dataBase.session.add(new_report)
                 dataBase.session.commit()
-                return redirect(url_for('main.upload_report'))
+                return make_response(('Success', 200))
 
             # Отчёт уже был проверен
             # if Report.query.filter_by(user_id=current_user.id).first().mark != None:
@@ -143,7 +143,7 @@ def upload_report():
             dataBase.session.commit()
 
             # Всё необходимое создано, возвращаемся на страницу пользователя
-            return redirect(url_for('main.upload_report'))
+            return make_response(('Success', 200))
     reports_query = Report.query.filter_by(user_id=current_user.id)
     arReports = []
     for report in reports_query:
