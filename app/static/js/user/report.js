@@ -47,8 +47,9 @@ $(document).ready(function () {
                 window.location.replace(window.location.pathname);
             });
 
-            this.on('error', function(e){
-                //alert(e);
+            this.on('error', function(file, msg){
+                alert(msg);
+                this.removeFile(file);
             });
         }
     }
