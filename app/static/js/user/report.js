@@ -24,6 +24,10 @@ $(document).ready(function () {
     });
 
     Dropzone.options.dropper = {
+        dictDefaultMessage: 'Перетащите файл, либо нажмите для выбора файла',
+        dictCancelUpload: '',
+        dictRemoveFile: 'Убрать файл',
+        dictMaxFilesExceeded: 'Вы можете загрузить только один файл.',
         paramName: 'file',
         chunking: true,
         forceChunking: true,
@@ -37,10 +41,6 @@ $(document).ready(function () {
 
             this.on("addedfile", function(file) {
                 $('.dz-progress').hide();
-                if (this.files.length > 1) {
-                    alert("Вы можете загрузить только один файл.");
-                    this.removeFile(file);
-                }
             });
 
             this.on("success", function() {
