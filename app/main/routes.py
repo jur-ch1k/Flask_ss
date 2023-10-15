@@ -15,10 +15,6 @@ from shutil import rmtree
 from os import path
 
 
-@bluePrint.route('/logs', methods=['GET'])
-def logs():
-    return send_from_directory('/home/flask_skipod/logs', 'microbial.log')
-
 
 # Пути к ресурсным файлам юзверя
 @bluePrint.route('/user/<username>/<path:path>', methods=['GET'])
@@ -71,7 +67,6 @@ def upload_report():
     if request.method == 'POST':
 
         # Отчёт уже был проверен
-        # todo добавить обработчик в дропзон
         if Report.query.filter_by(user_id=current_user.id).count() != 0 and Report.query.filter_by(user_id=current_user.id).first().mark != None:
             return make_response('Отчёт уже проверен, загрузка нового невозможна.', 500)
 

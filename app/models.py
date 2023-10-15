@@ -10,7 +10,7 @@ class Report(UserMixin, dataBase.Model):
     report_name = dataBase.Column(dataBase.String(100))
     mark = dataBase.Column(dataBase.Integer)
     date_creation = dataBase.Column(dataBase.DateTime, default=datetime.utcnow())
-    comment = dataBase.Column(dataBase.String(300))
+    comment = dataBase.Column(dataBase.String(1000))
     teacher_name = dataBase.Column(dataBase.String(64), default='')
 
     var_num = dataBase.Column(dataBase.Integer)
